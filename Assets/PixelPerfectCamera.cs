@@ -4,6 +4,7 @@ using System.Collections;
 public class PixelPerfectCamera : MonoBehaviour
 {
 	int m_ScreenHeight;
+	int m_PixelSize;
 
 	int ScreenHeight
 	{
@@ -13,15 +14,25 @@ public class PixelPerfectCamera : MonoBehaviour
 			if (m_ScreenHeight == value)
 				return;
 
-			camera.orthographicSize = ((float) value) / 2;
-			Debug.Log("Set camera size to " + camera.orthographicSize);
 			m_ScreenHeight = value;
+			UpdateSize();
 		}
 	}
+	public int PixelSize = 1;
 
 	// Update is called once per frame
 	void Update ()
 	{
 		ScreenHeight = Screen.height;
+		if (m_PixelSize != PixelSize)
+		{
+			m_PixelSize = PixelSize;
+			UpdateSize();
+		}
+	}
+
+	void UpdateSize()
+	{
+		camera.orthographicSize = ((float) ScreenHeight) / (2 * PixelSize);
 	}
 }
