@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ParallaxInputTester : MonoBehaviour
+public class CMParallaxInputTester : MonoBehaviour
 {
-	ParallaxController m_ParallaxController;
+	CMParallaxController m_ParallaxController;
 
 	void Start()
 	{
-		m_ParallaxController = gameObject.GetComponent<ParallaxController>();
+		m_ParallaxController = gameObject.GetComponent<CMParallaxController>();
 		if (m_ParallaxController == null)
 		{
 			Debug.LogError("Can't find parallax controller!");

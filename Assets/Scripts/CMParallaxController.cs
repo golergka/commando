@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ParallaxController : MonoBehaviour
+public class CMParallaxController : MonoBehaviour
 {
 
 	[System.Serializable]

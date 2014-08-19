@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveRoot : MonoBehaviour
+public class CMMoveRoot : MonoBehaviour
 {
 	float MOVE_SNAP = 128f;
 

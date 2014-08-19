@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
+public class CMCameraController : MonoBehaviour
 {
 	int m_ScreenHeight;
 	int m_PixelSize;
