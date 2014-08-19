@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CMParallaxInputTester : MonoBehaviour
+public class CMParallaxInputTester : CMBehavior
 {
 	CMParallaxController m_ParallaxController;
 
