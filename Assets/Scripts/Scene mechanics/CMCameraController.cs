@@ -18,6 +18,7 @@ public class CMCameraController : CMBehavior
 			UpdateSize();
 		}
 	}
+	
 	public int PixelSize = 1;
 
 	// Update is called once per frame
@@ -34,5 +35,25 @@ public class CMCameraController : CMBehavior
 	void UpdateSize()
 	{
 		camera.orthographicSize = ((float) ScreenHeight) / (2 * PixelSize);
+	}
+
+	float WorldHeight
+	{ get { return 2 * camera.orthographicSize; } }
+
+	float WorldWidth
+	{ get { return 2 * camera.aspect * camera.orthographicSize; } }
+
+	public Bounds WorldBounds
+	{
+		get
+		{
+			return new Bounds(
+				transform.position,
+				new Vector3(
+					WorldHeight,
+					WorldWidth,
+					float.PositiveInfinity
+				));
+		}
 	}
 }
