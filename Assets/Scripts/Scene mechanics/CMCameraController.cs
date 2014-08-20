@@ -3,8 +3,11 @@ using System.Collections;
 
 public class CMCameraController : CMBehavior
 {
+	#region Screen size
+
 	int m_ScreenHeight;
-	int m_PixelSize;
+	int m_PixelSizeOnScreen;
+	float m_PixelsInUnit;
 
 	int ScreenHeight
 	{
@@ -15,27 +18,41 @@ public class CMCameraController : CMBehavior
 				return;
 
 			m_ScreenHeight = value;
-			UpdateSize();
+			RefreshSize();
 		}
 	}
 	
-	public int PixelSize = 1;
+	public int PixelSizeOnScreen = 1;
+	public float PixelsInUnit = 1f;
+
+	void RefreshSize()
+	{
+		camera.orthographicSize = ((float) ScreenHeight) / (2 * PixelSizeOnScreen * m_PixelsInUnit);
+	}
+
+	#endregion
+
+	#region MonoBehavior methods
 
 	// Update is called once per frame
 	void Update ()
 	{
 		ScreenHeight = Screen.height;
-		if (m_PixelSize != PixelSize)
+		if (m_PixelSizeOnScreen != PixelSizeOnScreen)
 		{
-			m_PixelSize = PixelSize;
-			UpdateSize();
+			m_PixelSizeOnScreen = PixelSizeOnScreen;
+			RefreshSize();
+		}
+		if (m_PixelsInUnit != PixelsInUnit)
+		{
+			m_PixelsInUnit = PixelsInUnit;
+			RefreshSize();
 		}
 	}
 
-	void UpdateSize()
-	{
-		camera.orthographicSize = ((float) ScreenHeight) / (2 * PixelSize);
-	}
+	#endregion
+
+	#region World size
 
 	float WorldHeight
 	{ get { return 2 * camera.orthographicSize; } }
@@ -56,4 +73,6 @@ public class CMCameraController : CMBehavior
 				));
 		}
 	}
+
+	#endregion
 }

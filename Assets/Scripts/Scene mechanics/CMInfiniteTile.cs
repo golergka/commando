@@ -45,6 +45,7 @@ public class CMInfiniteTile : CMBehavior
 					   	Quaternion.identity
 					) as CMInfiniteTile;
 				m_LeftNeighbour.transform.parent = transform.parent;
+				m_LeftNeighbour.m_RightNeighbour = this;
 			}
 			if (m_RightNeighbour == null)
 			{
@@ -54,6 +55,7 @@ public class CMInfiniteTile : CMBehavior
 						Quaternion.identity
 					) as CMInfiniteTile;
 				m_RightNeighbour.transform.parent = transform.parent;
+				m_RightNeighbour.m_LeftNeighbour = this;
 			}
 		}
 	}
