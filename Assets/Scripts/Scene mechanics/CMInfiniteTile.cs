@@ -39,11 +39,21 @@ public class CMInfiniteTile : CMBehavior
 		{
 			if (m_LeftNeighbour == null)
 			{
-				m_LeftNeighbour = Instantiate(RandomNeighbourPrefab(), LeftNeighbourPosition, Quaternion.identity) as CMInfiniteTile;
+				m_LeftNeighbour = Instantiate(
+						RandomNeighbourPrefab(),
+					   	transform.position + LeftNeighbourPosition,
+					   	Quaternion.identity
+					) as CMInfiniteTile;
+				m_LeftNeighbour.transform.parent = transform.parent;
 			}
 			if (m_RightNeighbour == null)
 			{
-				m_RightNeighbour = Instantiate(RandomNeighbourPrefab(), RightNeighbourPosition, Quaternion.identity) as CMInfiniteTile;
+				m_RightNeighbour = Instantiate(
+						RandomNeighbourPrefab(),
+						transform.position + RightNeighbourPosition,
+						Quaternion.identity
+					) as CMInfiniteTile;
+				m_RightNeighbour.transform.parent = transform.parent;
 			}
 		}
 	}
