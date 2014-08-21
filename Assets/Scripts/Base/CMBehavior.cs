@@ -20,9 +20,9 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 
 	#region ICMServiceProvider
 
-	CMCameraController m_CameraController;
+	CMCameraManager m_CameraController;
 
-	public CMCameraController CameraController
+	public CMCameraManager CameraController
 	{ 
 		get 
 		{

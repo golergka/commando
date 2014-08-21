@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CMCameraController : CMBehavior
+public class CMCameraManager : CMBehavior
 {
 	#region Screen size
 

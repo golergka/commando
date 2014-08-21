@@ -11,10 +11,10 @@ public class CMDefaultServiceLocator : CMServiceLocator
 		return go.AddComponent<CMDefaultServiceLocator>();
 	});
 
-	static Lazy<CMCameraController> m_CameraController = new Lazy<CMCameraController>(delegate
+	static Lazy<CMCameraManager> m_CameraController = new Lazy<CMCameraManager>(delegate
 	{
-		return Camera.main.gameObject.GetComponent<CMCameraController>()
-			?? Camera.main.gameObject.AddComponent<CMCameraController>();
+		return Camera.main.gameObject.GetComponent<CMCameraManager>()
+			?? Camera.main.gameObject.AddComponent<CMCameraManager>();
 	});
 
 	#endregion
@@ -28,7 +28,7 @@ public class CMDefaultServiceLocator : CMServiceLocator
 
 	#region ICMServiceProvider
 
-	public override CMCameraController CameraController
+	public override CMCameraManager CameraController
 	{ get { return m_CameraController.Value; } }
 
 	#endregion
