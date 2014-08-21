@@ -25,7 +25,7 @@ public class CMInfiniteTile : CMBehavior
 	{
 		get
 		{
-			return CameraController.WorldBounds.Contains(transform.position);
+			return CameraManager.WorldBounds.Contains(transform.position);
 		}
 	}
 

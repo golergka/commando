@@ -20,17 +20,31 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 
 	#region ICMServiceProvider
 
-	CMCameraManager m_CameraController;
+	CMCameraManager m_CameraManager;
 
-	public CMCameraManager CameraController
+	public CMCameraManager CameraManager
 	{ 
 		get 
 		{
-			if (m_CameraController == null)
+			if (m_CameraManager == null)
 			{
-				m_CameraController = ServiceLocator.CameraController;
+				m_CameraManager = ServiceLocator.CameraManager;
 			}
-			return m_CameraController; 
+			return m_CameraManager; 
+		}
+	}
+
+	CMInputManager m_InputManager;
+
+	public CMInputManager InputManager
+	{
+		get
+		{
+			if (m_InputManager == null)
+			{
+				m_InputManager = ServiceLocator.InputManager;
+			}
+			return m_InputManager;
 		}
 	}
 

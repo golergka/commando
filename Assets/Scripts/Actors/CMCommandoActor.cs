@@ -64,7 +64,7 @@ public class CMCommandoActor : CMBehavior
 
 	void Start()
 	{
-		CameraController.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
+		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
 		CurrentSprite = 0;
 	}
 
