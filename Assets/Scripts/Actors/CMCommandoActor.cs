@@ -53,10 +53,33 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
+	#region Collisions
+
+	void OnCollisionEnter2D(Collision2D _Collision)
+	{
+		if (_Collision.gameObject.tag == TAG_OBSTACLE)
+			m_ObstacleCollisions++;
+	}
+
+	void OnCollisionExit2D(Collision2D _Collision)
+	{
+		if (_Collision.gameObject.tag == TAG_OBSTACLE)
+			m_ObstacleCollisions--;
+	}
+
+	#endregion
+
+	#region Obstacles
+
+	const string TAG_OBSTACLE = "Obstacle";
+	int m_ObstacleCollisions = 0;
+
+	#endregion
+
 	#region Logic properties
 
-	float CurrentMovement
-	{ get { return 1f; } }
+	float Direction
+	{ get { return m_ObstacleCollisions > 0 ? 0f : 1f; } }
 
 	#endregion
 
@@ -70,15 +93,16 @@ public class CMCommandoActor : CMBehavior
 
 	void Update()
 	{
-		if (CurrentMovement == 0f)
+		float movement = Direction * Speed * Time.deltaTime;
+		if (movement == 0f)
 			return;
-		transform.position += new Vector3(CurrentMovement, 0, 0);
+		transform.position += new Vector3(movement, 0, 0);
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
-				CurrentMovement > 0 ? 0f : 180f,
+				movement > 0 ? 0f : 180f,
 				transform.eulerAngles.z
 			);
-		SpriteProgress += Mathf.Abs(CurrentMovement * SpriteSpeed);
+		SpriteProgress += Mathf.Abs(movement * SpriteSpeed);
 	}
 
 	#endregion
