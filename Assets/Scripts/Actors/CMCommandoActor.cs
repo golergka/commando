@@ -51,6 +51,6 @@ public class CMCommandoActor : CMBehavior
 	{
 		float movement = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
 		transform.position += new Vector3(movement, 0, 0);
-		SpriteProgress += movement * SpriteSpeed;
+		SpriteProgress += Mathf.Abs(movement * SpriteSpeed);
 	}
 }
