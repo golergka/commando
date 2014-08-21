@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class CMCommandoActor : CMBehavior
 {
+	#region Public configuration
+
 	public float Speed = 1f;
 	public float SpriteSpeed = 5f;
+
+	#endregion
+
+	#region Current sprite
 
 	public Sprite[] Sprites;
 
@@ -20,6 +26,10 @@ public class CMCommandoActor : CMBehavior
 			renderer.sprite = Sprites[m_CurrentSprite];
 		}
 	}
+
+	#endregion
+
+	#region Sprite progress
 
 	float	m_SpriteProgress;
 	float	SpriteProgress
@@ -41,6 +51,17 @@ public class CMCommandoActor : CMBehavior
 		}
 	}
 
+	#endregion
+
+	#region Logic properties
+
+	float CurrentMovement
+	{ get { return 1f; } }
+
+	#endregion
+
+	#region Engine methods
+
 	void Start()
 	{
 		CameraController.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
@@ -49,15 +70,16 @@ public class CMCommandoActor : CMBehavior
 
 	void Update()
 	{
-		float movement = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
-		if (movement == 0f)
+		if (CurrentMovement == 0f)
 			return;
-		transform.position += new Vector3(movement, 0, 0);
+		transform.position += new Vector3(CurrentMovement, 0, 0);
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
-				movement > 0 ? 0f : 180f,
+				CurrentMovement > 0 ? 0f : 180f,
 				transform.eulerAngles.z
 			);
-		SpriteProgress += Mathf.Abs(movement * SpriteSpeed);
+		SpriteProgress += Mathf.Abs(CurrentMovement * SpriteSpeed);
 	}
+
+	#endregion
 }
