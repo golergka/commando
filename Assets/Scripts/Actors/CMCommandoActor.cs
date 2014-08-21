@@ -50,6 +50,8 @@ public class CMCommandoActor : CMBehavior
 	void Update()
 	{
 		float movement = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
+		if (movement == 0f)
+			return;
 		transform.position += new Vector3(movement, 0, 0);
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
