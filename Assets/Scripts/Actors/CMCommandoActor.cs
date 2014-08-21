@@ -51,6 +51,11 @@ public class CMCommandoActor : CMBehavior
 	{
 		float movement = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
 		transform.position += new Vector3(movement, 0, 0);
+		transform.eulerAngles = new Vector3(
+				transform.eulerAngles.x,
+				movement > 0 ? 0f : 180f,
+				transform.eulerAngles.z
+			);
 		SpriteProgress += Mathf.Abs(movement * SpriteSpeed);
 	}
 }
