@@ -254,6 +254,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 967619130}
   - 212: {fileID: 967619129}
+  - 114: {fileID: 967619131}
   m_Layer: 0
   m_Name: Arab_akm
   m_TagString: Untagged
@@ -295,6 +296,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &967619131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967619128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1765c9129b1f40989844ac45e3ad210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 1
 --- !u!1 &1076506150
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +621,7 @@ GameObject:
   - 124: {fileID: 1934195847}
   - 81: {fileID: 1934195846}
   - 114: {fileID: 1934195851}
+  - 114: {fileID: 1934195852}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -689,6 +703,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PixelSizeOnScreen: 1
   PixelsInUnit: 100
+--- !u!114 &1934195852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1934195845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6afe39cf790aa48d4878a0c9d234ae93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FollowX: 1
+  FollowY: 0
+  FollowZ: 0
+  FollowSpeed: 1
+  FollowSnap: .0199999996
 --- !u!1 &1977598165
 GameObject:
   m_ObjectHideFlags: 0
