@@ -14,7 +14,7 @@ public class CMInputManager : CMBehavior
 	void Start()
 	{
 		var collider = gameObject.GetOrAddComponent<BoxCollider>();
-		collider.size = new Vector3(1000,1000,1000);
+		collider.size = new Vector3(1000,1000,1);
 		collider.isTrigger = true;
 		transform.parent = CameraManager.transform;
 	}

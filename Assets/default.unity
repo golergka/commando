@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 774438924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.5999999, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 1}
+  m_LocalScale: {x: 100, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!1 &967619128
@@ -351,6 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 2
   SpriteSpeed: 7
+  JumpForce: 5
   Sprites:
   - {fileID: 21300000, guid: 5a9fc14f0a6a00f428246164c33448c7, type: 3}
   - {fileID: 21300002, guid: 5a9fc14f0a6a00f428246164c33448c7, type: 3}
@@ -380,7 +381,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967619128}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6b1dfcb1a1e25474482192038b7a6051, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

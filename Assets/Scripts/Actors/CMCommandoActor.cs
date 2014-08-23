@@ -6,6 +6,7 @@ public class CMCommandoActor : CMBehavior
 
 	public float Speed = 1f;
 	public float SpriteSpeed = 5f;
+	public float JumpForce = 5f;
 
 	#endregion
 
@@ -71,7 +72,8 @@ public class CMCommandoActor : CMBehavior
 
 	#region Obstacles
 
-	const string TAG_OBSTACLE = "Obstacle";
+	const string TAG_OBSTACLE	= "Obstacle";
+	const string TAG_FLOOR		= "Floor";
 	int m_ObstacleCollisions = 0;
 
 	#endregion
@@ -89,20 +91,25 @@ public class CMCommandoActor : CMBehavior
 	{
 		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
 		CurrentSprite = 0;
+		InputManager.OnTapDown += delegate
+		{
+			Debug.Log("f");
+			rigidbody.AddForce(new Vector3(0,JumpForce,0),ForceMode.Impulse);
+		};
 	}
 
 	void Update()
 	{
-		float movement = Direction * Speed * Time.deltaTime;
+		float movement = Direction * Speed;
 		if (movement == 0f)
 			return;
-		transform.position += new Vector3(movement, 0, 0);
+		rigidbody.AddForce(new Vector3(movement - rigidbody.velocity.x, 0, 0), ForceMode.VelocityChange);
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
 				movement > 0 ? 0f : 180f,
 				transform.eulerAngles.z
 			);
-		SpriteProgress += Mathf.Abs(movement * SpriteSpeed);
+		SpriteProgress += Mathf.Abs(movement * Time.deltaTime * SpriteSpeed);
 	}
 
 	#endregion
