@@ -165,7 +165,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 343817601}
-  - 61: {fileID: 343817602}
+  - 65: {fileID: 343817602}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -184,17 +184,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 165053844}
---- !u!61 &343817602
-BoxCollider2D:
+--- !u!65 &343817602
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 343817600}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 1.89999998, y: 1.70000005}
-  m_Center: {x: 0, y: 0}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.90999997, y: 1.69000006, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &578433526
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +254,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 774438926}
-  - 61: {fileID: 774438925}
+  - 65: {fileID: 774438925}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -261,17 +262,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &774438925
-BoxCollider2D:
+--- !u!65 &774438925
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 774438924}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 1, y: 1}
-  m_Center: {x: 0, y: 0}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &774438926
 Transform:
   m_ObjectHideFlags: 0
@@ -293,8 +295,8 @@ GameObject:
   - 4: {fileID: 967619130}
   - 212: {fileID: 967619129}
   - 114: {fileID: 967619131}
-  - 61: {fileID: 967619133}
-  - 50: {fileID: 967619132}
+  - 65: {fileID: 967619133}
+  - 54: {fileID: 967619132}
   m_Layer: 0
   m_Name: Arab_akm
   m_TagString: Untagged
@@ -357,32 +359,33 @@ MonoBehaviour:
   - {fileID: 21300008, guid: 5a9fc14f0a6a00f428246164c33448c7, type: 3}
   - {fileID: 21300010, guid: 5a9fc14f0a6a00f428246164c33448c7, type: 3}
   - {fileID: 21300012, guid: 5a9fc14f0a6a00f428246164c33448c7, type: 3}
---- !u!50 &967619132
-Rigidbody2D:
+--- !u!54 &967619132
+Rigidbody:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967619128}
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 0
-  m_FixedAngle: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_Constraints: 120
   m_CollisionDetection: 0
---- !u!61 &967619133
-BoxCollider2D:
+--- !u!65 &967619133
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967619128}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .600000024, y: 1.10000002}
-  m_Center: {x: -.150000006, y: .620000005}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.15999997, y: 1.24000001, z: 1}
+  m_Center: {x: 0, y: .620000005, z: 0}
 --- !u!1 &1076506150
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +806,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1976299636}
   - 212: {fileID: 1976299635}
-  - 61: {fileID: 1976299637}
+  - 65: {fileID: 1976299637}
   m_Layer: 0
   m_Name: Hedgehog
   m_TagString: Obstacle
@@ -845,17 +848,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!61 &1976299637
-BoxCollider2D:
+--- !u!65 &1976299637
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1976299634}
-  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .639999986, y: 1.25}
-  m_Center: {x: 0, y: 0}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .639999986, y: 1.25, z: .200000003}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1977598165
 GameObject:
   m_ObjectHideFlags: 0
