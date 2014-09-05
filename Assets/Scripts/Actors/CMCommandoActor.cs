@@ -7,6 +7,7 @@ public class CMCommandoActor : CMBehavior
 	public float Speed = 1f;
 	public float SpriteSpeed = 5f;
 	public float JumpForce = 5f;
+	public float Gravity = 9.8f;
 
 	#endregion
 
@@ -56,32 +57,22 @@ public class CMCommandoActor : CMBehavior
 
 	#region Collisions
 
-	void OnCollisionEnter2D(Collision2D _Collision)
-	{
-		if (_Collision.gameObject.tag == TAG_OBSTACLE)
-			m_ObstacleCollisions++;
-	}
-
-	void OnCollisionExit2D(Collision2D _Collision)
-	{
-		if (_Collision.gameObject.tag == TAG_OBSTACLE)
-			m_ObstacleCollisions--;
-	}
+	CapsuleCollider	m_CapsuleCollider;
 
 	#endregion
 
 	#region Obstacles
 
-	const string TAG_OBSTACLE	= "Obstacle";
-	const string TAG_FLOOR		= "Floor";
-	int m_ObstacleCollisions = 0;
+	const int LAYER_PLATFORM			= 8;
 
 	#endregion
 
 	#region Logic properties
 
 	float Direction
-	{ get { return m_ObstacleCollisions > 0 ? 0f : 1f; } }
+	{ get { return 1f; } }
+
+	float m_VerticalImpulse = 0f;
 
 	#endregion
 
@@ -93,23 +84,53 @@ public class CMCommandoActor : CMBehavior
 		CurrentSprite = 0;
 		InputManager.OnTapDown += delegate
 		{
-			Debug.Log("f");
-			rigidbody.AddForce(new Vector3(0,JumpForce,0),ForceMode.Impulse);
+			if (Mathf.Approximately(m_VerticalImpulse, 0f))
+			{
+				m_VerticalImpulse = JumpForce;
+			}
 		};
+		m_CapsuleCollider = gameObject.GetOrAddComponent<CapsuleCollider>();
 	}
 
 	void Update()
 	{
-		float movement = Direction * Speed;
-		if (movement == 0f)
-			return;
-		rigidbody.AddForce(new Vector3(movement - rigidbody.velocity.x, 0, 0), ForceMode.VelocityChange);
+		m_VerticalImpulse -= Gravity * Time.deltaTime;
+		var movement = new Vector3(
+				Direction * Speed * Time.deltaTime,
+				m_VerticalImpulse * Time.deltaTime,
+				0
+			);
+		// Clamping horizontal movement with horizontal cast
+		{
+			RaycastHit hit;
+			if (rigidbody.SweepTest(new Vector3(movement.x, 0, 0), out hit, movement.x))
+			{
+				movement.x = 0f;
+			}
+		}
+		// Clamping vertical movement with vertical cast
+		if (movement.y < 0)
+		{
+			RaycastHit hit;
+			if (rigidbody.SweepTest(new Vector3(0, -movement.y, 0), out hit, movement.y))
+			{
+				movement.y = 0f;
+				m_VerticalImpulse = 0f;
+			}
+		}
+		// Assigning destination
+		var destination = transform.position + movement;
+		// Moving the actor horizontaly
+		transform.position = destination;
+		//rigidbody.AddForce(new Vector3(movement - rigidbody.velocity.x, 0, 0), ForceMode.VelocityChange);
+		// Rotating the transform
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
-				movement > 0 ? 0f : 180f,
+				movement.x >= 0 ? 0f : 180f,
 				transform.eulerAngles.z
 			);
-		SpriteProgress += Mathf.Abs(movement * Time.deltaTime * SpriteSpeed);
+		// Changing the sprite
+		SpriteProgress += Mathf.Abs(movement.magnitude * SpriteSpeed);
 	}
 
 	#endregion
