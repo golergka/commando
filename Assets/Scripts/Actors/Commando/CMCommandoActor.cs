@@ -139,7 +139,7 @@ public class CMCommandoActor : CMBehavior
 				{
 					OnDeath();
 				}
-				Destroy(gameObject);
+				Mover.DeathJump();
 			}
 		};
 	}

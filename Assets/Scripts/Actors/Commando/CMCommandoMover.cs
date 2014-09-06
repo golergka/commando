@@ -50,6 +50,13 @@ public class CMCommandoMover : CMBehavior
 		}
 	}
 
+	public void DeathJump()
+	{
+		State.VerticalImpulse = CommandoManager.JumpForce;
+		State.DoubleJumped = true;
+		State.GroundHeight = float.NegativeInfinity;
+	}
+
 	#endregion
 
 	#region Events
