@@ -5,7 +5,7 @@ public class CMHealth : CMBehavior
 	public void InitWithMax(int _MaxHealth)
 	{
 		MaxHealth = _MaxHealth;
-		Health = _MaxHealth;
+		m_Health = _MaxHealth;
 	}
 
 	public int MaxHealth { get; private set; }
