@@ -24,6 +24,16 @@ public class CMCommandoManager : CMBehavior
 	public void RegisterCommando(CMCommandoActor _Commando)
 	{
 		m_Commandos.Add(_Commando);
+		_Commando.OnDeath += delegate
+		{
+			int removedIndex = m_Commandos.IndexOf(_Commando);
+			for(int i = removedIndex + 1; i < m_Commandos.Count; i++)
+			{
+				m_Commandos[i].SwitchWith(_Commando);
+			}
+			m_Commandos.Remove(_Commando);
+			SortCommandos();
+		};
 		SortCommandos();
 	}
 

@@ -111,6 +111,12 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
+	#region Events
+
+	public event System.Action OnDeath;
+
+	#endregion
+
 	#region Engine methods
 
 	protected override void Awake()
@@ -126,6 +132,14 @@ public class CMCommandoActor : CMBehavior
 			if (_Delta < 0)
 			{
 				m_BlinkStartTime = Time.time;
+			}
+			if (Health.Health == 0)
+			{
+				if (OnDeath != null)
+				{
+					OnDeath();
+				}
+				Destroy(gameObject);
 			}
 		};
 	}
