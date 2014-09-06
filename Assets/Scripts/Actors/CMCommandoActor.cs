@@ -90,6 +90,7 @@ public class CMCommandoActor : CMBehavior
 			}
 		};
 		m_CapsuleCollider = gameObject.GetOrAddComponent<CapsuleCollider>();
+		CommandoManager.RegisterCommando(this);
 	}
 
 	void Update()
