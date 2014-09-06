@@ -8,6 +8,8 @@ public class CMCommandoActor : CMBehavior
 	public float SpriteSpeed = 5f;
 	public float JumpForce = 5f;
 	public float Gravity = 9.8f;
+	public float GroundSnap = 0.1f;
+	public float GroundAdjust = 1f;
 
 	#endregion
 
@@ -57,6 +59,8 @@ public class CMCommandoActor : CMBehavior
 
 	#region Logic properties
 
+	public float GroundHeight { get; set; }
+
 	float Direction
 	{ get { return 1f; } }
 
@@ -77,6 +81,7 @@ public class CMCommandoActor : CMBehavior
 				m_VerticalImpulse = JumpForce;
 			}
 		};
+		GroundHeight = transform.position.y;
 		CommandoManager.RegisterCommando(this);
 	}
 
@@ -99,18 +104,30 @@ public class CMCommandoActor : CMBehavior
 		// Clamping vertical movement with vertical cast
 		if (movement.y < 0)
 		{
+			// Hitting obstacles and platforms
 			RaycastHit hit;
 			if (rigidbody.SweepTest(new Vector3(0, -movement.y, 0), out hit, movement.y))
 			{
 				movement.y = 0f;
 				m_VerticalImpulse = 0f;
 			}
+			// Hitting the ground
+			if (transform.position.y <= GroundHeight)
+			{
+				if ((GroundHeight - transform.position.y) < GroundSnap)
+				{
+					transform.position = new Vector3(
+							transform.position.x,
+							GroundHeight,
+							transform.position.z
+						);
+				}
+				movement.y = (GroundHeight - transform.position.y) * Time.deltaTime * GroundAdjust;
+				m_VerticalImpulse = 0f;
+			}
 		}
-		// Assigning destination
-		var destination = transform.position + movement;
-		// Moving the actor horizontaly
-		transform.position = destination;
-		//rigidbody.AddForce(new Vector3(movement - rigidbody.velocity.x, 0, 0), ForceMode.VelocityChange);
+		// Moving the actor
+		transform.position = transform.position + movement;
 		// Rotating the transform
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,
