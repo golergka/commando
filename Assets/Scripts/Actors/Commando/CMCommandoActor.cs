@@ -86,7 +86,6 @@ public class CMCommandoActor : CMBehavior
 
 	void Start()
 	{
-		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
 		CommandoManager.RegisterCommando(this);
 	}
 

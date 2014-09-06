@@ -39,6 +39,7 @@ public class CMCommandoManager : CMBehavior
 			else
 			{ return 0; }
 		});
+		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = m_Commandos[0].transform;
 	}
 
 	#endregion
