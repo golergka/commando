@@ -57,14 +57,21 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
-	#region Logic properties
+	#region Movement state
 
 	public float GroundHeight { get; set; }
 
 	float Direction
 	{ get { return 1f; } }
 
-	float m_VerticalImpulse = 0f;
+	float	m_VerticalImpulse = 0f;
+	bool	m_DoubleJumped = false;
+
+	void HitGround()
+	{
+		m_VerticalImpulse = 0f;
+		m_DoubleJumped = false;
+	}
 
 	#endregion
 
@@ -76,9 +83,14 @@ public class CMCommandoActor : CMBehavior
 		CurrentSprite = 0;
 		InputManager.OnTapDown += delegate
 		{
-			if (Mathf.Approximately(m_VerticalImpulse, 0f))
+			bool grounded = Mathf.Approximately(m_VerticalImpulse, 0f);
+			if (grounded || !m_DoubleJumped)
 			{
 				m_VerticalImpulse = JumpForce;
+				if (!grounded)
+				{
+					m_DoubleJumped = true;
+				}
 			}
 		};
 		GroundHeight = transform.position.y;
@@ -109,7 +121,7 @@ public class CMCommandoActor : CMBehavior
 			if (rigidbody.SweepTest(new Vector3(0, -movement.y, 0), out hit, movement.y))
 			{
 				movement.y = 0f;
-				m_VerticalImpulse = 0f;
+				HitGround();
 			}
 			// Hitting the ground
 			if (transform.position.y <= GroundHeight)
@@ -123,7 +135,7 @@ public class CMCommandoActor : CMBehavior
 						);
 				}
 				movement.y = (GroundHeight - transform.position.y) * Time.deltaTime * GroundAdjust;
-				m_VerticalImpulse = 0f;
+				HitGround();
 			}
 		}
 		// Moving the actor
