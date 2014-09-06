@@ -105,7 +105,7 @@ public class CMCommandoActor : CMBehavior
 			RaycastHit hit;
 			if (rigidbody.SweepTest(new Vector3(movement.x, 0, 0), out hit, movement.x))
 			{
-				movement.x = 0f;
+				// TODO
 			}
 		}
 		// Clamping vertical movement with vertical cast
