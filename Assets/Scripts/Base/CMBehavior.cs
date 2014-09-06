@@ -48,17 +48,17 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 		}
 	}
 
-	CMCharacterManager m_CharacterManager;
+	CMCommandoManager m_CommandoManager;
 
-	public CMCharacterManager CharacterManager
+	public CMCommandoManager CommandoManager
 	{
 		get
 		{
-			if (m_CharacterManager == null)
+			if (m_CommandoManager == null)
 			{
-				m_CharacterManager = ServiceLocator.CharacterManager;
+				m_CommandoManager = ServiceLocator.CommandoManager;
 			}
-			return m_CharacterManager;
+			return m_CommandoManager;
 		}
 	}
 
