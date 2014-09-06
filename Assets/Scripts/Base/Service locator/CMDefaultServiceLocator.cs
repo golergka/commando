@@ -23,9 +23,19 @@ public class CMDefaultServiceLocator : CMServiceLocator
 
 	static Lazy<CMCommandoManager>	m_CommandoManager = new Lazy<CMCommandoManager>(delegate
 	{
-		var go = new GameObject("Character manager");
+		var go = new GameObject("Commando manager");
 		DontDestroyOnLoad(go);
 		return go.AddComponent<CMCommandoManager>();
+	});
+
+	static Lazy<CMGameManager>	m_GameManager = new Lazy<CMGameManager>(delegate
+	{
+		var result = GameObject.Find("Game manager");
+		if (result != null)
+			return result.GetOrAddComponent<CMGameManager>();
+		result = new GameObject("Game manager");
+		DontDestroyOnLoad(result);
+		return result.AddComponent<CMGameManager>();
 	});
 
 	#endregion
@@ -56,6 +66,9 @@ public class CMDefaultServiceLocator : CMServiceLocator
 
 	public override CMCommandoManager CommandoManager
 	{ get { return m_CommandoManager.Value; } }
+
+	public override CMGameManager GameManager
+	{ get { return m_GameManager.Value; } }
 
 	#endregion
 }
