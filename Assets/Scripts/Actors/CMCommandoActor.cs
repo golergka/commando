@@ -2,6 +2,18 @@ using UnityEngine;
 
 public class CMCommandoActor : CMBehavior
 {
+	#region Character profiles
+
+	public CommandoProfile Profile;
+
+	[System.Serializable]
+	public class CommandoProfile
+	{
+		public Sprite[] Sprites;
+	}
+
+	#endregion
+
 	#region Public configuration
 
 	public float Speed = 1f;
@@ -15,19 +27,17 @@ public class CMCommandoActor : CMBehavior
 
 	#region Current sprite
 
-	public Sprite[] Sprites;
-
 	int		m_CurrentSprite;
 	int		CurrentSprite
 	{
 		get { return m_CurrentSprite; }
 		set
 		{
-			m_CurrentSprite = value % Sprites.Length;
+			m_CurrentSprite = value % Profile.Sprites.Length;
 			if (m_CurrentSprite < 0)
-				m_CurrentSprite += Sprites.Length;
+				m_CurrentSprite += Profile.Sprites.Length;
 			SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-			renderer.sprite = Sprites[m_CurrentSprite];
+			renderer.sprite = Profile.Sprites[m_CurrentSprite];
 		}
 	}
 
