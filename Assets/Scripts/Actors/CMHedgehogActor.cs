@@ -16,6 +16,7 @@ public class CMHedgehogActor : CMBehavior
 		if (health == null)
 		{ return; }
 		health.Health -= Damage;
+		CommandoManager.Jump();
 		m_Triggered = true;
 	}
 }

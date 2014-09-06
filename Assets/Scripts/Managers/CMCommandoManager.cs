@@ -93,7 +93,7 @@ public class CMCommandoManager : CMBehavior
 
 	#region Input
 
-	void Jump()
+	public void Jump()
 	{
 		if (m_Commandos.Count == 0)
 		{
