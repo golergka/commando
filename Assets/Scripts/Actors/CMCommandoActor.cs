@@ -55,12 +55,6 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
-	#region Collisions
-
-	CapsuleCollider	m_CapsuleCollider;
-
-	#endregion
-
 	#region Obstacles
 
 	const int LAYER_PLATFORM			= 8;
@@ -89,7 +83,6 @@ public class CMCommandoActor : CMBehavior
 				m_VerticalImpulse = JumpForce;
 			}
 		};
-		m_CapsuleCollider = gameObject.GetOrAddComponent<CapsuleCollider>();
 		CommandoManager.RegisterCommando(this);
 	}
 
