@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class CMHealth : CMBehavior
 {
+	#region Initialization
+
 	public void InitWithMax(int _MaxHealth)
 	{
 		MaxHealth = _MaxHealth;
 		m_Health = _MaxHealth;
 	}
+
+	#endregion
+
+	#region Properties
 
 	public int MaxHealth { get; private set; }
 	int m_Health;
@@ -18,20 +24,27 @@ public class CMHealth : CMBehavior
 		{
 			if (!IsAlive)
 				return;
+			value = Mathf.Max(0, value);
+			value = Mathf.Min(MaxHealth, value);
+			float delta = value - m_Health;
+			if (delta == 0)
+			{ return; }
 			m_Health = value;
-			m_Health = Mathf.Max(0, m_Health);
-			m_Health = Mathf.Min(MaxHealth, m_Health);
-			if (m_Health == 0)
+			if (OnHealthChange != null)
 			{
-				Die();
+				OnHealthChange(delta);
 			}
 		}
 	}
 
 	public bool IsAlive { get { return Health > 0; } }
 
-	void Die()
-	{
-		// TODO
-	}
+	#endregion
+
+	#region Events
+
+	public event System.Action<float> OnHealthChange;
+
+	#endregion
+
 }

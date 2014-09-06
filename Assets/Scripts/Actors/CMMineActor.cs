@@ -17,10 +17,6 @@ public class CMMineActor : CMBehavior
 		{ return; }
 		m_Triggered = true;
 		StartCoroutine(Detonate());
-		var health = _Other.GetComponent<CMHealth>();
-		if (health == null)
-		{ return; }
-		health.Health -= Damage;
 	}
 
 	IEnumerator Detonate()
