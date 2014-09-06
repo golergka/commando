@@ -1,6 +1,13 @@
 fileFormatVersion: 2
 guid: c6073acb9e2865745940140dfca4e070
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: hedgehog
+    21300002: barrel_poison
+    21300004: barrel_fuel
+    21300006: crate
+    21300008: mine
+    21300010: mines
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +42,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +58,7 @@ TextureImporter:
         height: 125
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: barrel_poison
       rect:
         serializedVersion: 2
@@ -59,6 +68,7 @@ TextureImporter:
         height: 59
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: barrel_fuel
       rect:
         serializedVersion: 2
@@ -68,6 +78,7 @@ TextureImporter:
         height: 59
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: crate
       rect:
         serializedVersion: 2
@@ -77,6 +88,7 @@ TextureImporter:
         height: 47
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: mine
       rect:
         serializedVersion: 2
@@ -86,6 +98,7 @@ TextureImporter:
         height: 25
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: mines
       rect:
         serializedVersion: 2
@@ -95,5 +108,6 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
