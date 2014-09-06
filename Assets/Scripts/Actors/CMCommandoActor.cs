@@ -73,6 +73,19 @@ public class CMCommandoActor : CMBehavior
 		m_DoubleJumped = false;
 	}
 
+	public void Jump()
+	{
+		bool grounded = Mathf.Approximately(m_VerticalImpulse, 0f);
+		if (grounded || !m_DoubleJumped)
+		{
+			m_VerticalImpulse = JumpForce;
+			if (!grounded)
+			{
+				m_DoubleJumped = true;
+			}
+		}
+	}
+
 	#endregion
 
 	#region Engine methods
@@ -81,18 +94,6 @@ public class CMCommandoActor : CMBehavior
 	{
 		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
 		CurrentSprite = 0;
-		InputManager.OnTapDown += delegate
-		{
-			bool grounded = Mathf.Approximately(m_VerticalImpulse, 0f);
-			if (grounded || !m_DoubleJumped)
-			{
-				m_VerticalImpulse = JumpForce;
-				if (!grounded)
-				{
-					m_DoubleJumped = true;
-				}
-			}
-		};
 		GroundHeight = transform.position.y;
 		CommandoManager.RegisterCommando(this);
 	}
