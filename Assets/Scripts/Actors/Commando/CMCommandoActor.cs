@@ -4,7 +4,8 @@ public class CMCommandoActor : CMBehavior
 {
 	#region Public configuration
 
-	public float SpriteSpeed = 5f;
+	public float	SpriteSpeed = 5f;
+	public int		MaxHealth	= 100;
 
 	#endregion
 
@@ -70,7 +71,8 @@ public class CMCommandoActor : CMBehavior
 
 	#region Commando components
 
-	public CMCommandoMover Mover { get; private set; }
+	public CMCommandoMover	Mover { get; private set; }
+	public CMHealth			Health { get; private set; }
 
 	#endregion
 
@@ -82,6 +84,8 @@ public class CMCommandoActor : CMBehavior
 		CurrentSprite = 0;
 		Mover = gameObject.GetOrAddComponent<CMCommandoMover>();
 		Mover.OnMovement += m => SpriteProgress += Mathf.Abs(m.magnitude * SpriteSpeed);
+		Health = gameObject.GetOrAddComponent<CMHealth>();
+		Health.InitWithMax(MaxHealth);
 	}
 
 	void Start()
