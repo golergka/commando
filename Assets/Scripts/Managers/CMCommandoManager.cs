@@ -33,6 +33,10 @@ public class CMCommandoManager : CMBehavior
 			}
 			m_Commandos.Remove(_Commando);
 			SortCommandos();
+			if (m_Commandos.Count == 0)
+			{
+				GameManager.GameOver();
+			}
 		};
 		SortCommandos();
 	}
@@ -49,7 +53,10 @@ public class CMCommandoManager : CMBehavior
 			else
 			{ return 0; }
 		});
-		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = m_Commandos[0].transform;
+		if (m_Commandos.Count > 0)
+		{
+			CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = m_Commandos[0].transform;
+		}
 	}
 
 	#endregion
@@ -107,7 +114,6 @@ public class CMCommandoManager : CMBehavior
 	{
 		if (m_Commandos.Count == 0)
 		{
-			Debug.LogError("Can't jump without any commandos!");
 			return;
 		}
 		m_Orders.Add(new JumpOrder(this, m_Commandos[0].transform.position.x));
