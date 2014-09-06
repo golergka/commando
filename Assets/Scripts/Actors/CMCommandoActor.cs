@@ -2,18 +2,30 @@ using UnityEngine;
 
 public class CMCommandoActor : CMBehavior
 {
+	#region Character profiles
+
+	public CommandoProfile Profile;
+
+	[System.Serializable]
+	public class CommandoProfile
+	{
+		public Sprite[] Sprites;
+	}
+
+	#endregion
+
 	#region Public configuration
 
 	public float Speed = 1f;
 	public float SpriteSpeed = 5f;
 	public float JumpForce = 5f;
 	public float Gravity = 9.8f;
+	public float GroundSnap = 0.1f;
+	public float GroundAdjust = 1f;
 
 	#endregion
 
 	#region Current sprite
-
-	public Sprite[] Sprites;
 
 	int		m_CurrentSprite;
 	int		CurrentSprite
@@ -21,11 +33,11 @@ public class CMCommandoActor : CMBehavior
 		get { return m_CurrentSprite; }
 		set
 		{
-			m_CurrentSprite = value % Sprites.Length;
+			m_CurrentSprite = value % Profile.Sprites.Length;
 			if (m_CurrentSprite < 0)
-				m_CurrentSprite += Sprites.Length;
+				m_CurrentSprite += Profile.Sprites.Length;
 			SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-			renderer.sprite = Sprites[m_CurrentSprite];
+			renderer.sprite = Profile.Sprites[m_CurrentSprite];
 		}
 	}
 
@@ -55,24 +67,34 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
-	#region Collisions
+	#region Movement state
 
-	CapsuleCollider	m_CapsuleCollider;
-
-	#endregion
-
-	#region Obstacles
-
-	const int LAYER_PLATFORM			= 8;
-
-	#endregion
-
-	#region Logic properties
+	public float GroundHeight { get; set; }
 
 	float Direction
 	{ get { return 1f; } }
 
-	float m_VerticalImpulse = 0f;
+	float	m_VerticalImpulse = 0f;
+	bool	m_DoubleJumped = false;
+
+	void HitGround()
+	{
+		m_VerticalImpulse = 0f;
+		m_DoubleJumped = false;
+	}
+
+	public void Jump()
+	{
+		bool grounded = Mathf.Approximately(m_VerticalImpulse, 0f);
+		if (grounded || !m_DoubleJumped)
+		{
+			m_VerticalImpulse = JumpForce;
+			if (!grounded)
+			{
+				m_DoubleJumped = true;
+			}
+		}
+	}
 
 	#endregion
 
@@ -82,14 +104,8 @@ public class CMCommandoActor : CMBehavior
 	{
 		CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = transform;
 		CurrentSprite = 0;
-		InputManager.OnTapDown += delegate
-		{
-			if (Mathf.Approximately(m_VerticalImpulse, 0f))
-			{
-				m_VerticalImpulse = JumpForce;
-			}
-		};
-		m_CapsuleCollider = gameObject.GetOrAddComponent<CapsuleCollider>();
+		GroundHeight = transform.position.y;
+		CommandoManager.RegisterCommando(this);
 	}
 
 	void Update()
@@ -105,24 +121,36 @@ public class CMCommandoActor : CMBehavior
 			RaycastHit hit;
 			if (rigidbody.SweepTest(new Vector3(movement.x, 0, 0), out hit, movement.x))
 			{
-				movement.x = 0f;
+				// TODO
 			}
 		}
 		// Clamping vertical movement with vertical cast
 		if (movement.y < 0)
 		{
+			// Hitting obstacles and platforms
 			RaycastHit hit;
 			if (rigidbody.SweepTest(new Vector3(0, -movement.y, 0), out hit, movement.y))
 			{
 				movement.y = 0f;
-				m_VerticalImpulse = 0f;
+				HitGround();
+			}
+			// Hitting the ground
+			if (transform.position.y <= GroundHeight)
+			{
+				if ((GroundHeight - transform.position.y) < GroundSnap)
+				{
+					transform.position = new Vector3(
+							transform.position.x,
+							GroundHeight,
+							transform.position.z
+						);
+				}
+				movement.y = (GroundHeight - transform.position.y) * Time.deltaTime * GroundAdjust;
+				HitGround();
 			}
 		}
-		// Assigning destination
-		var destination = transform.position + movement;
-		// Moving the actor horizontaly
-		transform.position = destination;
-		//rigidbody.AddForce(new Vector3(movement - rigidbody.velocity.x, 0, 0), ForceMode.VelocityChange);
+		// Moving the actor
+		transform.position = transform.position + movement;
 		// Rotating the transform
 		transform.eulerAngles = new Vector3(
 				transform.eulerAngles.x,

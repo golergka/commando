@@ -48,5 +48,19 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 		}
 	}
 
+	CMCommandoManager m_CommandoManager;
+
+	public CMCommandoManager CommandoManager
+	{
+		get
+		{
+			if (m_CommandoManager == null)
+			{
+				m_CommandoManager = ServiceLocator.CommandoManager;
+			}
+			return m_CommandoManager;
+		}
+	}
+
 	#endregion
 }

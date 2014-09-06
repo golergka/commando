@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CMInputManager : CMBehavior
 {
+	#region Public interface
+
 	public float Horizontal
 	{ get { return Input.GetAxis("Horizontal"); } }
 
@@ -10,6 +12,12 @@ public class CMInputManager : CMBehavior
 	{ get { return Input.GetAxis("Vertical"); } }
 
 	public event System.Action OnTapDown;
+	public event System.Action OnSwipeLeft;
+	public event System.Action OnSwipeRight;
+
+	#endregion
+
+	#region Engine methods
 
 	void Start()
 	{
@@ -24,4 +32,18 @@ public class CMInputManager : CMBehavior
 		if (OnTapDown != null)
 			OnTapDown();
 	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown("left") && OnSwipeLeft != null)
+		{
+			OnSwipeLeft();
+		}
+		if (Input.GetKeyDown("right") && OnSwipeRight != null)
+		{
+			OnSwipeRight();
+		}
+	}
+
+	#endregion
 }
