@@ -23,6 +23,12 @@ public class CMDefaultServiceLocator : CMServiceLocator
 		return go.AddComponent<CMInputManager>();
 	});
 
+	static Lazy<CMCharacterManager>	m_CharacterManager = new Lazy<CMCharacterManager>(delegate
+	{
+		var go = new GameObject("Character manager");
+		return go.AddComponent<CMCharacterManager>();
+	});
+
 	#endregion
 
 	#region Singleton
@@ -39,6 +45,9 @@ public class CMDefaultServiceLocator : CMServiceLocator
 
 	public override CMInputManager	InputManager
 	{ get { return m_InputManager.Value; } }
+
+	public override CMCharacterManager CharacterManager
+	{ get { return m_CharacterManager.Value; } }
 
 	#endregion
 }

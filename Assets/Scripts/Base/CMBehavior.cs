@@ -48,5 +48,19 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 		}
 	}
 
+	CMCharacterManager m_CharacterManager;
+
+	public CMCharacterManager CharacterManager
+	{
+		get
+		{
+			if (m_CharacterManager == null)
+			{
+				m_CharacterManager = ServiceLocator.CharacterManager;
+			}
+			return m_CharacterManager;
+		}
+	}
+
 	#endregion
 }
