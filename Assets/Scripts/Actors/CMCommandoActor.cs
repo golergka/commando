@@ -55,12 +55,6 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
-	#region Obstacles
-
-	const int LAYER_PLATFORM			= 8;
-
-	#endregion
-
 	#region Logic properties
 
 	float Direction
