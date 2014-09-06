@@ -35,11 +35,11 @@ public class CMInputManager : CMBehavior
 
 	void Update()
 	{
-		if (Input.GetKey("left") && OnSwipeLeft != null)
+		if (Input.GetKeyDown("left") && OnSwipeLeft != null)
 		{
 			OnSwipeLeft();
 		}
-		if (Input.GetKey("right") && OnSwipeRight != null)
+		if (Input.GetKeyDown("right") && OnSwipeRight != null)
 		{
 			OnSwipeRight();
 		}

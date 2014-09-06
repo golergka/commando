@@ -83,6 +83,10 @@ public class CMCommandoManager : CMBehavior
 
 	List<Order> m_Orders = new List<Order>();
 
+	#endregion
+
+	#region Input
+
 	void Jump()
 	{
 		if (m_Commandos.Count == 0)
@@ -93,13 +97,34 @@ public class CMCommandoManager : CMBehavior
 		m_Orders.Add(new JumpOrder(this, m_Commandos[0].transform.position.x));
 	}
 
+	void SwitchProfiles(bool _Right)
+	{
+		var profiles = m_Commandos.Select(cm => cm.Profile).ToList();
+		for(int i = 0; i < m_Commandos.Count; i++)
+		{
+			int commandoIndex = i + (_Right ? 1 : -1);
+			while (commandoIndex >= m_Commandos.Count)
+			{
+				commandoIndex -= m_Commandos.Count;
+			}
+			while (commandoIndex < 0)
+			{
+				commandoIndex += m_Commandos.Count;
+			}
+			m_Commandos[commandoIndex].Profile = profiles[i];
+		}
+	}
+
 	#endregion
 
 	#region Engine methods
 
 	void Start()
 	{
+		// TODO: memory leaks
 		InputManager.OnTapDown += Jump;
+		InputManager.OnSwipeRight += () => SwitchProfiles(true);
+		InputManager.OnSwipeLeft += () => SwitchProfiles(false);
 	}
 
 	void Update()
