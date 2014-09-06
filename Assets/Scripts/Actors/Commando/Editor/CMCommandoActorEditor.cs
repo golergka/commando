@@ -11,7 +11,7 @@ public class CMCommandoActorEditor : Editor
 		SpriteRenderer renderer = actor.GetComponent<SpriteRenderer>();
 		Texture2D texture = renderer.sprite.texture;
 		string spriteSheet = AssetDatabase.GetAssetPath(texture);
-		actor.Profile.Sprites = AssetDatabase.LoadAllAssetsAtPath(spriteSheet).OfType<Sprite>().ToArray();
+		actor.Sprites = AssetDatabase.LoadAllAssetsAtPath(spriteSheet).OfType<Sprite>().ToArray();
 		DrawDefaultInspector();
 	}
 }

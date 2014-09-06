@@ -4,6 +4,16 @@ using System.Linq;
 
 public class CMCommandoManager : CMBehavior
 {
+	#region Commando movement configuration
+
+	public float Speed			= 1f;
+	public float JumpForce		= 5f;
+	public float Gravity		= 9.8f;
+	public float GroundSnap 	= 0.1f;
+	public float GroundAdjust	= 1f;
+
+	#endregion
+
 	#region Commando list management
 
 	public List<CMCommandoActor> Commandos
@@ -14,6 +24,11 @@ public class CMCommandoManager : CMBehavior
 	public void RegisterCommando(CMCommandoActor _Commando)
 	{
 		m_Commandos.Add(_Commando);
+		SortCommandos();
+	}
+
+	void SortCommandos()
+	{
 		m_Commandos.Sort(delegate(CMCommandoActor _X, CMCommandoActor _Y)
 		{
 			float result = _Y.transform.position.x - _X.transform.position.x;
@@ -35,7 +50,7 @@ public class CMCommandoManager : CMBehavior
 		readonly float				m_Position;
 		readonly CMCommandoManager	m_CommandoManager;
 
-		List<CMCommandoActor> m_CommandosJumped = new List<CMCommandoActor>();
+		int	m_CommandosJumped = 0;
 
 		public Order(CMCommandoManager _CommandoManager, float _Position)
 		{
@@ -45,25 +60,15 @@ public class CMCommandoManager : CMBehavior
 
 		public bool TryExecute()
 		{
-			bool everyoneJumped = true;
-			foreach(var cm in m_CommandoManager.Commandos)
+			for(int i = m_CommandosJumped; i < m_CommandoManager.Commandos.Count; i++)
 			{
-				if (m_CommandosJumped.Contains(cm))
+				if (m_CommandoManager.Commandos[i].transform.position.x >= m_Position)
 				{
-					continue;
-				}
-				else if (cm.transform.position.x < m_Position)
-				{
-					everyoneJumped = false;
-					continue;
-				}
-				else
-				{
-					ExecuteOn(cm);
-					m_CommandosJumped.Add(cm);
+					ExecuteOn(m_CommandoManager.Commandos[i]);
+					m_CommandosJumped++;
 				}
 			}
-			return everyoneJumped;
+			return m_CommandosJumped == m_CommandoManager.Commandos.Count;
 		}
 
 		protected abstract void ExecuteOn(CMCommandoActor _Actor);
@@ -77,7 +82,7 @@ public class CMCommandoManager : CMBehavior
 
 		protected override void ExecuteOn(CMCommandoActor _Actor)
 		{
-			_Actor.Jump();
+			_Actor.Mover.Jump();
 		}
 	}
 
@@ -97,10 +102,9 @@ public class CMCommandoManager : CMBehavior
 		m_Orders.Add(new JumpOrder(this, m_Commandos[0].transform.position.x));
 	}
 
-	void SwitchProfiles(bool _Right)
+	void SwitchCommandos(bool _Right)
 	{
-		var profiles = m_Commandos.Select(cm => cm.Profile).ToList();
-		for(int i = 0; i < m_Commandos.Count; i++)
+		for(int i = 0; i < m_Commandos.Count - 1; i++)
 		{
 			int commandoIndex = i + (_Right ? 1 : -1);
 			while (commandoIndex >= m_Commandos.Count)
@@ -111,8 +115,9 @@ public class CMCommandoManager : CMBehavior
 			{
 				commandoIndex += m_Commandos.Count;
 			}
-			m_Commandos[commandoIndex].Profile = profiles[i];
+			m_Commandos[commandoIndex].SwitchWith(m_Commandos[i]);
 		}
+		SortCommandos();
 	}
 
 	#endregion
@@ -123,8 +128,8 @@ public class CMCommandoManager : CMBehavior
 	{
 		// TODO: memory leaks
 		InputManager.OnTapDown += Jump;
-		InputManager.OnSwipeRight += () => SwitchProfiles(true);
-		InputManager.OnSwipeLeft += () => SwitchProfiles(false);
+		InputManager.OnSwipeRight += () => SwitchCommandos(true);
+		InputManager.OnSwipeLeft += () => SwitchCommandos(false);
 	}
 
 	void Update()
