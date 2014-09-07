@@ -8,6 +8,16 @@ public class CMCommandoActor : CMBehavior
 	public int		MaxHealth	= 100;
 	public float	BlinkLength = 0.1f;
 	public int		BlinkCount	= 4;
+	public Vector3	BulletSpawn;
+
+	#endregion
+
+	#region Gizmos
+
+	void OnDrawGizmosSelected()
+	{
+		Gizmos.DrawIcon(transform.position + BulletSpawn, "gizmo_star", false);
+	}
 
 	#endregion
 
