@@ -20,4 +20,17 @@ public class CMDetonator : CMBehavior
 		}
 		Destroy(this.gameObject);
 	}
+
+	void OnDrawGizmosSelected()
+	{
+		int gizmos = 4;
+		float maxDistance = DistanceFalloff.keys[DistanceFalloff.length-1].time;
+		for(int i = 0; i <= gizmos; i++)
+		{
+			float distance = maxDistance * (1 - (((float) i) / (float)(gizmos + 1)));
+			float intensity = DistanceFalloff.Evaluate(distance);
+			Gizmos.color = Color.Lerp(Color.white, Color.red, intensity);
+			Gizmos.DrawWireSphere(transform.position, distance);
+		}
+	}
 }
