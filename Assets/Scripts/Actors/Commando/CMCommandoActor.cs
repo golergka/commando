@@ -148,7 +148,6 @@ public class CMCommandoActor : CMBehavior
 		m_CurrentSprite = m_CurrentSprite % CurrentSprites.Length;
 		if (m_CurrentSprite < 0)
 			m_CurrentSprite += CurrentSprites.Length;
-		Debug.Log("Current sprite: " + m_CurrentSprite + " sprites length: " + CurrentSprites.Length);
 		Renderer.sprite = CurrentSprites[CurrentSprite];
 	}
 
