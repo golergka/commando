@@ -231,6 +231,11 @@ public class CMCommandoActor : CMBehavior
 		CurrentSprite = 0;
 		Mover = gameObject.GetOrAddComponent<CMCommandoMover>();
 		Mover.OnMovement += m => SpriteProgress += Mathf.Abs(m.magnitude * SpriteSpeed);
+		Mover.OnGroundedChanged += delegate(bool _Grounded)
+		{
+			Debug.Log("Grounded: " + _Grounded);
+			Renderer.sortingLayerID = _Grounded ? 9 : 11;
+		};
 		Health = gameObject.GetOrAddComponent<CMHealth>();
 		Health.OnHealthChange += delegate(float _Delta)
 		{

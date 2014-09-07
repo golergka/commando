@@ -59,9 +59,23 @@ public class CMCommandoMover : CMBehavior
 
 	#endregion
 
+	#region Grounded
+
+	bool m_GroundedPrevious;
+	bool Grounded
+	{
+		get
+		{
+			return State.VerticalImpulse == 0f;
+		}
+	}
+
+	#endregion
+
 	#region Events
 
 	public event System.Action<Vector3> OnMovement;
+	public event System.Action<bool> OnGroundedChanged;
 
 	#endregion
 
@@ -105,6 +119,11 @@ public class CMCommandoMover : CMBehavior
 				movement.y = (State.GroundHeight - transform.position.y) * Time.deltaTime * CommandoManager.GroundAdjust;
 				HitGround();
 			}
+		}
+		if (m_GroundedPrevious != Grounded && OnGroundedChanged != null)
+		{
+			OnGroundedChanged(Grounded);
+			m_GroundedPrevious = Grounded;
 		}
 		// Moving the actor
 		transform.position = transform.position + movement;
