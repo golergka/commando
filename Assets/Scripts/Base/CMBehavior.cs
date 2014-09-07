@@ -7,12 +7,16 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 
 	protected CMServiceLocator ServiceLocator { get; private set; }
 
-	void Awake()
+	protected virtual void Awake()
 	{
 		ServiceLocator = gameObject.GetComponent<CMServiceLocator>();
 		if (ServiceLocator == null)
 		{
 			ServiceLocator = CMDefaultServiceLocator.Instance;
+			if (ServiceLocator == null)
+			{
+				Debug.LogError("Can't locate default service locator!");
+			}
 		}
 	}
 
