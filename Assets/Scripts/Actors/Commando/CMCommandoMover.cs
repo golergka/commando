@@ -81,14 +81,6 @@ public class CMCommandoMover : CMBehavior
 				State.VerticalImpulse * Time.deltaTime,
 				0
 			);
-		// Clamping horizontal movement with horizontal cast
-		{
-			RaycastHit hit;
-			if (rigidbody.SweepTest(new Vector3(movement.x, 0, 0), out hit, movement.x))
-			{
-				// TODO
-			}
-		}
 		// Clamping vertical movement with vertical cast
 		if (movement.y < 0)
 		{
