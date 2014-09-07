@@ -57,6 +57,10 @@ public class CMCommandoManager : CMBehavior
 		{
 			CameraManager.gameObject.GetOrAddComponent<CMFollower>().Followee = m_Commandos[0].transform;
 		}
+		for(int i = 0; i < m_Commandos.Count; i++)
+		{
+			m_Commandos[i].Position = i;
+		}
 	}
 
 	#endregion

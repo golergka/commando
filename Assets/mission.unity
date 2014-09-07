@@ -308,21 +308,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0bd09c282340809867cc596feced3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteSpeed: 5
   MaxHealth: 100
-  BlinkLength: .100000001
-  BlinkCount: 4
   BulletSpawn: {x: .720000029, y: .810000002, z: 0}
+  BulletSpawnBack: {x: -.779999971, y: .660000026, z: 0}
   BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
   FireRate: 1
   Sprites:
-  - {fileID: 21300000, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300002, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300004, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300006, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300008, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300010, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
-  - {fileID: 21300012, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
+  - {fileID: 21300000, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300002, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300004, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300006, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300008, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300010, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  - {fileID: 21300012, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
+  SpritesBack: []
+  SpriteSpeed: 5
+  BlinkLength: .100000001
+  BlinkCount: 4
 --- !u!212 &215730281
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -343,7 +345,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 2467527361
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fcc54d36fae484c3d864ffd98222699f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &215730282
 Transform:
@@ -563,7 +565,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 2467527361
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: afde410700e7841919847d8a758f5854, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &967619130
 Transform:
@@ -588,21 +590,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0bd09c282340809867cc596feced3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteSpeed: 5
   MaxHealth: 100
-  BlinkLength: .100000001
-  BlinkCount: 4
   BulletSpawn: {x: .670000017, y: .689999998, z: 0}
+  BulletSpawnBack: {x: -.720000029, y: .689999998, z: 0}
   BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
   FireRate: 5
   Sprites:
-  - {fileID: 21300000, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300002, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300004, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300006, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300008, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300010, guid: afde410700e7841919847d8a758f5854, type: 3}
-  - {fileID: 21300012, guid: afde410700e7841919847d8a758f5854, type: 3}
+  - {fileID: 21300000, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300002, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300004, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300006, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300008, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300010, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  - {fileID: 21300012, guid: c790bd507a8e1454aa080e4a382785b4, type: 3}
+  SpritesBack: []
+  SpriteSpeed: 5
+  BlinkLength: .100000001
+  BlinkCount: 4
 --- !u!54 &967619132
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -881,21 +885,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0bd09c282340809867cc596feced3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteSpeed: 5
   MaxHealth: 20
-  BlinkLength: .100000001
-  BlinkCount: 4
   BulletSpawn: {x: .75999999, y: .879999995, z: 0}
+  BulletSpawnBack: {x: -.970000029, y: .879999995, z: 0}
   BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
   FireRate: 1
   Sprites:
-  - {fileID: 21300000, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300002, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300004, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300006, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300008, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300010, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
-  - {fileID: 21300012, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
+  - {fileID: 21300000, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300002, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300004, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300006, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300008, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300010, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  - {fileID: 21300012, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
+  SpritesBack: []
+  SpriteSpeed: 5
+  BlinkLength: .100000001
+  BlinkCount: 4
 --- !u!212 &1191114467
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -916,7 +922,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 2467527361
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8f8f1ac5e24324bcea428b0ee6f1ed54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1191114468
 Transform:

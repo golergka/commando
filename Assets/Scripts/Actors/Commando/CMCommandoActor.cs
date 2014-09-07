@@ -5,14 +5,7 @@ public class CMCommandoActor : CMBehavior
 {
 	#region Public configuration
 
-	public float	SpriteSpeed = 5f;
 	public int		MaxHealth	= 100;
-	public float	BlinkLength = 0.1f;
-	public int		BlinkCount	= 4;
-
-	public Vector3			BulletSpawn;
-	public CMBulletActor	BulletPrefab;
-	public float			FireRate = 1f;
 
 	#endregion
 
@@ -25,7 +18,34 @@ public class CMCommandoActor : CMBehavior
 
 	#endregion
 
+	#region Position
+
+	int m_Position;
+
+	public int Position
+	{
+		get { return m_Position; }
+		set
+		{
+			if (value == m_Position)
+			{ return; }
+			m_Position = value;
+			UpdateSprite();
+		}
+	}
+
+	public bool LooksBack
+	{ get { return m_Position == 2; } }
+
+	#endregion
+
 	#region Firing bullets
+
+	public Vector3			BulletSpawn;
+	public Vector3			BulletSpawnBack;
+
+	public CMBulletActor	BulletPrefab;
+	public float			FireRate = 1f;
 
 	IEnumerator m_FireCoroutine;
 
@@ -47,7 +67,7 @@ public class CMCommandoActor : CMBehavior
 	{
 		get
 		{
-			return BulletSpawn + transform.position;
+			return (LooksBack ? BulletSpawnBack : BulletSpawn) + transform.position;
 		}
 	}
 
@@ -65,7 +85,11 @@ public class CMCommandoActor : CMBehavior
 				Debug.LogError("Can't instantiate null prefab!");
 				yield break;
 			}
-			Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity);
+			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
+			if (bullet != null)
+			{
+				bullet.Speed = LooksBack ? -bullet.Speed : bullet.Speed;
+			}
 			yield return new WaitForSeconds(1/FireRate);
 		}
 	}
@@ -91,6 +115,15 @@ public class CMCommandoActor : CMBehavior
 	#region Current sprite
 
 	public Sprite[] Sprites;
+	public Sprite[] SpritesBack;
+
+	Sprite[] CurrentSprites
+	{
+		get
+		{
+			return LooksBack ? SpritesBack : Sprites;
+		}
+	}
 
 	int		m_CurrentSprite;
 	int		CurrentSprite
@@ -98,16 +131,30 @@ public class CMCommandoActor : CMBehavior
 		get { return m_CurrentSprite; }
 		set
 		{
-			m_CurrentSprite = value % Sprites.Length;
-			if (m_CurrentSprite < 0)
-				m_CurrentSprite += Sprites.Length;
-			Renderer.sprite = Sprites[m_CurrentSprite];
+			if (m_CurrentSprite == value)
+			{ return; }
+			UpdateSprite();
 		}
+	}
+
+	void UpdateSprite()
+	{
+		if (CurrentSprites.Length == 0)
+		{
+			Debug.LogError("I don't have sprites for current state: " + (LooksBack ? "back" : "forward"));
+			return;
+		}
+		m_CurrentSprite = m_CurrentSprite % CurrentSprites.Length;
+		if (m_CurrentSprite < 0)
+			m_CurrentSprite += CurrentSprites.Length;
+		Renderer.sprite = CurrentSprites[CurrentSprite];
 	}
 
 	#endregion
 
 	#region Sprite progress
+
+	public float SpriteSpeed = 5f;
 
 	float	m_SpriteProgress;
 	float	SpriteProgress
@@ -152,6 +199,9 @@ public class CMCommandoActor : CMBehavior
 	#endregion
 
 	#region Blinking state
+
+	public float	BlinkLength = 0.1f;
+	public int		BlinkCount	= 4;
 
 	float m_BlinkStartTime = float.NegativeInfinity;
 	float BlinkStop { get { return m_BlinkStartTime + BlinkLength * BlinkCount; } }
