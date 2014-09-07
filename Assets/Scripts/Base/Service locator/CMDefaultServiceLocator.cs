@@ -23,9 +23,11 @@ public class CMDefaultServiceLocator : CMServiceLocator
 
 	static Lazy<CMCommandoManager>	m_CommandoManager = new Lazy<CMCommandoManager>(delegate
 	{
-		var go = new GameObject("Commando manager");
-		DontDestroyOnLoad(go);
-		return go.AddComponent<CMCommandoManager>();
+		var result = GameObject.Find("Commando manager");
+		if (result != null)
+			return result.GetOrAddComponent<CMCommandoManager>();
+		result = new GameObject("Commando manager");
+		return result.AddComponent<CMCommandoManager>();
 	});
 
 	static Lazy<CMGameManager>	m_GameManager = new Lazy<CMGameManager>(delegate
