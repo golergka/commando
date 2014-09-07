@@ -85,7 +85,7 @@ GameObject:
   - 212: {fileID: 53301731}
   - 65: {fileID: 53301730}
   - 114: {fileID: 53301729}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 165053844}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 578433527}
   - 212: {fileID: 578433528}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,7 +690,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1144091633}
   - 212: {fileID: 1144091632}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -742,7 +742,7 @@ GameObject:
   - 212: {fileID: 1167659003}
   - 65: {fileID: 1167659002}
   - 114: {fileID: 1167659001}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -988,7 +988,7 @@ GameObject:
   - 212: {fileID: 1412812667}
   - 65: {fileID: 1412812666}
   - 114: {fileID: 1412812669}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1129,7 +1129,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1583507330}
   - 212: {fileID: 1583507331}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1259,7 +1259,7 @@ GameObject:
   - 4: {fileID: 1830518878}
   - 212: {fileID: 1830518879}
   - 65: {fileID: 1830518880}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1321,7 +1321,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1904361764}
   - 212: {fileID: 1904361765}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1488,7 +1488,7 @@ GameObject:
   - 212: {fileID: 1976299635}
   - 65: {fileID: 1976299637}
   - 114: {fileID: 1976299638}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Hedgehog
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -1562,7 +1562,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1977598166}
   - 212: {fileID: 1977598167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1681,7 +1681,7 @@ GameObject:
   - 212: {fileID: 2078789654}
   - 65: {fileID: 2078789653}
   - 114: {fileID: 2078789652}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1773,7 +1773,7 @@ GameObject:
   - 212: {fileID: 2081414422}
   - 65: {fileID: 2081414421}
   - 114: {fileID: 2081414420}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
