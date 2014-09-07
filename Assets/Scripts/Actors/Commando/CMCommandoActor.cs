@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CMCommandoActor : CMBehavior
 {
@@ -8,7 +9,10 @@ public class CMCommandoActor : CMBehavior
 	public int		MaxHealth	= 100;
 	public float	BlinkLength = 0.1f;
 	public int		BlinkCount	= 4;
-	public Vector3	BulletSpawn;
+
+	public Vector3			BulletSpawn;
+	public CMBulletActor	BulletPrefab;
+	public float			FireRate = 1f;
 
 	#endregion
 
@@ -16,7 +20,54 @@ public class CMCommandoActor : CMBehavior
 
 	void OnDrawGizmosSelected()
 	{
-		Gizmos.DrawIcon(transform.position + BulletSpawn, "gizmo_star", false);
+		Gizmos.DrawIcon(BulletSpawnPosition, "gizmo_star", false);
+	}
+
+	#endregion
+
+	#region Firing bullets
+
+	IEnumerator m_FireCoroutine;
+
+	void StartFire()
+	{
+		StartCoroutine(m_FireCoroutine = Fire());
+	}
+
+	void StopFire()
+	{
+		if (m_FireCoroutine != null)
+		{
+			StopCoroutine(m_FireCoroutine);
+			m_FireCoroutine = null;
+		}
+	}
+
+	Vector3 BulletSpawnPosition
+	{
+		get
+		{
+			return BulletSpawn + transform.position;
+		}
+	}
+
+	IEnumerator Fire()
+	{
+		while(true)
+		{
+			if (FireRate == 0f)
+			{
+				Debug.LogError("Fire rate can't be 0!");
+				yield break;
+			}
+			if (BulletPrefab == null)
+			{
+				Debug.LogError("Can't instantiate null prefab!");
+				yield break;
+			}
+			Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity);
+			yield return new WaitForSeconds(1/FireRate);
+		}
 	}
 
 	#endregion
@@ -157,6 +208,7 @@ public class CMCommandoActor : CMBehavior
 	void Start()
 	{
 		CommandoManager.RegisterCommando(this);
+		StartFire();
 	}
 
 	void Update()

@@ -312,6 +312,9 @@ MonoBehaviour:
   MaxHealth: 100
   BlinkLength: .100000001
   BlinkCount: 4
+  BulletSpawn: {x: .720000029, y: .810000002, z: 0}
+  BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
+  FireRate: 1
   Sprites:
   - {fileID: 21300000, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
   - {fileID: 21300002, guid: 4d0ec2804a45f43768f7f64ea79fddd2, type: 3}
@@ -589,6 +592,9 @@ MonoBehaviour:
   MaxHealth: 100
   BlinkLength: .100000001
   BlinkCount: 4
+  BulletSpawn: {x: .670000017, y: .689999998, z: 0}
+  BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
+  FireRate: 5
   Sprites:
   - {fileID: 21300000, guid: afde410700e7841919847d8a758f5854, type: 3}
   - {fileID: 21300002, guid: afde410700e7841919847d8a758f5854, type: 3}
@@ -879,6 +885,9 @@ MonoBehaviour:
   MaxHealth: 20
   BlinkLength: .100000001
   BlinkCount: 4
+  BulletSpawn: {x: .75999999, y: .879999995, z: 0}
+  BulletPrefab: {fileID: 11400000, guid: cca7cb0fe3d584828b55345ad9c25185, type: 2}
+  FireRate: 1
   Sprites:
   - {fileID: 21300000, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
   - {fileID: 21300002, guid: 6ae723d82ee1c422d91e606525cdfff2, type: 3}
