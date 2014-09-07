@@ -4,6 +4,7 @@ public class CMBulletActor : CMBehavior
 {
 	public int		Damage;
 	public float	Speed;
+	public float	Distance;
 
 	void OnTriggerEnter(Collider _Other)
 	{
@@ -17,6 +18,13 @@ public class CMBulletActor : CMBehavior
 		}
 	}
 
+	Vector3 m_SpawnPosition;
+
+	protected override void Awake()
+	{
+		m_SpawnPosition = transform.position;
+	}
+
 	void Update()
 	{
 		transform.position = new Vector3(
@@ -24,5 +32,9 @@ public class CMBulletActor : CMBehavior
 				transform.position.y,
 				transform.position.z
 			);
+		if ((transform.position - m_SpawnPosition).magnitude >= Distance)
+		{
+			Destroy(gameObject);
+		}
 	}
 }
