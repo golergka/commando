@@ -24,7 +24,7 @@ public class CMMineActor : CMBehavior
 		yield return new WaitForSeconds(Delay);
 		foreach(var cm in CommandoManager.Commandos)
 		{
-			float distance = (transform.position - cm.transform.position).magnitude ;
+			float distance = (transform.position - cm.transform.position).magnitude;
 			float damage = DistanceFalloff.Evaluate(distance) * Damage;
 			var health = cm.Health;
 			if (health != null)
