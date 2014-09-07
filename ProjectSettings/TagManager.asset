@@ -10,7 +10,7 @@ TagManager:
   Builtin Layer 2: Ignore Raycast
   Builtin Layer 3: 
   Builtin Layer 4: Water
-  Builtin Layer 5: 
+  Builtin Layer 5: UI
   Builtin Layer 6: 
   Builtin Layer 7: 
   User Layer 8: Platform
@@ -38,7 +38,7 @@ TagManager:
   User Layer 30: 
   User Layer 31: 
   m_SortingLayers:
-  - name: Background
+  - name: Sky
     userID: 1
     uniqueID: 546941057
     locked: 0
@@ -46,11 +46,51 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
-  - name: Reference
+  - name: City
     userID: 2
-    uniqueID: 268403865
+    uniqueID: 1302868113
     locked: 0
-  - name: Actors
+  - name: Ground
     userID: 3
-    uniqueID: 2951519639
+    uniqueID: 3816539179
+    locked: 0
+  - name: Armor
+    userID: 4
+    uniqueID: 1278583181
+    locked: 0
+  - name: Buildings
+    userID: 5
+    uniqueID: 1297154061
+    locked: 0
+  - name: Decorations
+    userID: 6
+    uniqueID: 3981740339
+    locked: 0
+  - name: Interactive props
+    userID: 7
+    uniqueID: 2119551997
+    locked: 0
+  - name: Enemies
+    userID: 8
+    uniqueID: 2873231865
+    locked: 0
+  - name: Commandos
+    userID: 9
+    uniqueID: 2467527361
+    locked: 0
+  - name: Building foreground
+    userID: 10
+    uniqueID: 1819001933
+    locked: 0
+  - name: Commandos jumping
+    userID: 11
+    uniqueID: 2963050975
+    locked: 0
+  - name: Bullets
+    userID: 12
+    uniqueID: 56277237
+    locked: 0
+  - name: Effects
+    userID: 13
+    uniqueID: 1338716983
     locked: 0
