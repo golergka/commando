@@ -2,19 +2,9 @@ using UnityEngine;
 
 public class CMHealth : CMBehavior
 {
-	#region Initialization
-
-	public void InitWithMax(int _MaxHealth)
-	{
-		MaxHealth = _MaxHealth;
-		m_Health = _MaxHealth;
-	}
-
-	#endregion
-
 	#region Properties
 
-	public int MaxHealth { get; private set; }
+	public int MaxHealth;
 	int m_Health;
 
 	public int Health
@@ -38,6 +28,15 @@ public class CMHealth : CMBehavior
 	}
 
 	public bool IsAlive { get { return Health > 0; } }
+
+	#endregion
+
+	#region Engine methods
+
+	protected override void Awake()
+	{
+		m_Health = MaxHealth;
+	}
 
 	#endregion
 

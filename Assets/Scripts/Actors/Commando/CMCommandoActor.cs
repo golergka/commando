@@ -3,12 +3,6 @@ using System.Collections;
 
 public class CMCommandoActor : CMBehavior
 {
-	#region Public configuration
-
-	public int		MaxHealth	= 100;
-
-	#endregion
-
 	#region Gizmos
 
 	void OnDrawGizmosSelected()
@@ -238,7 +232,6 @@ public class CMCommandoActor : CMBehavior
 		Mover = gameObject.GetOrAddComponent<CMCommandoMover>();
 		Mover.OnMovement += m => SpriteProgress += Mathf.Abs(m.magnitude * SpriteSpeed);
 		Health = gameObject.GetOrAddComponent<CMHealth>();
-		Health.InitWithMax(MaxHealth);
 		Health.OnHealthChange += delegate(float _Delta)
 		{
 			if (_Delta < 0)
