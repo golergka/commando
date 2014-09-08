@@ -30,6 +30,11 @@ public class CMInputManager : CMBehavior
 
 	#region Engine methods
 
+	protected override void Awake()
+	{
+		base.Awake();
+	}
+
 	void Start()
 	{
 		var collider = gameObject.GetOrAddComponent<BoxCollider>();

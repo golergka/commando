@@ -5,47 +5,27 @@ public class CMDefaultServiceLocator : CMServiceLocator
 {
 	#region Private realization
 
-	static Lazy<CMDefaultServiceLocator> m_Instance = new Lazy<CMDefaultServiceLocator>(delegate
-	{
-		var go = new GameObject("Default service locator");
-		DontDestroyOnLoad(go);
-		return go.AddComponent<CMDefaultServiceLocator>();
-	});
-
-	CMCameraManager m_CameraManager;
-
-	static Lazy<CMInputManager> m_InputManager = new Lazy<CMInputManager>(delegate
-	{
-		var go = new GameObject("Input manager");
-		DontDestroyOnLoad(go);
-		return go.AddComponent<CMInputManager>();
-	});
-
-	static Lazy<CMCommandoManager>	m_CommandoManager = new Lazy<CMCommandoManager>(delegate
-	{
-		var result = GameObject.Find("Commando manager");
-		if (result != null)
-			return result.GetOrAddComponent<CMCommandoManager>();
-		result = new GameObject("Commando manager");
-		return result.AddComponent<CMCommandoManager>();
-	});
-
-	static Lazy<CMGameManager>	m_GameManager = new Lazy<CMGameManager>(delegate
-	{
-		var result = GameObject.Find("Game manager");
-		if (result != null)
-			return result.GetOrAddComponent<CMGameManager>();
-		result = new GameObject("Game manager");
-		DontDestroyOnLoad(result);
-		return result.AddComponent<CMGameManager>();
-	});
+	static CMDefaultServiceLocator m_Instance;
+	CMCameraManager			m_CameraManager;
+	CMInputManager			m_InputManager;
+	CMCommandoManager		m_CommandoManager;
+	CMGameManager			m_GameManager;
 
 	#endregion
 
 	#region Singleton
 
 	public static CMDefaultServiceLocator Instance
-	{ get { return m_Instance.Value; } }
+	{
+		get
+		{
+			if (m_Instance == null)
+			{
+				m_Instance = LoadOrCreateManager<CMDefaultServiceLocator>("Service locator");
+			}
+			return m_Instance;
+		}
+	}
 
 	#endregion
 
@@ -64,13 +44,63 @@ public class CMDefaultServiceLocator : CMServiceLocator
 	}
 
 	public override CMInputManager	InputManager
-	{ get { return m_InputManager.Value; } }
+	{ 
+		get 
+		{ 
+			if (m_InputManager == null)
+			{
+				m_InputManager = LoadOrCreateManager<CMInputManager>("Input manager");
+			}
+			return m_InputManager;
+		} 
+	}
 
 	public override CMCommandoManager CommandoManager
-	{ get { return m_CommandoManager.Value; } }
+	{
+		get
+		{
+			if (m_CommandoManager == null)
+			{
+				m_CommandoManager = LoadOrCreateManager<CMCommandoManager>("Commando manager");
+			}
+			return m_CommandoManager;
+		}
+	}
 
 	public override CMGameManager GameManager
-	{ get { return m_GameManager.Value; } }
+	{
+		get
+		{
+			if (m_GameManager == null)
+			{
+				m_GameManager = LoadOrCreateManager<CMGameManager>("Game manager");
+			}
+			return m_GameManager;
+		}
+	}
+
+	#endregion
+
+	#region Service methods
+
+	static T LoadOrCreateManager<T>(string _Name) where T : Component
+	{
+		var go = GameObject.Find(_Name);
+		if (go != null)
+		{
+			Debug.Log("Found: " + _Name);
+			return go.GetOrAddComponent<T>();
+		}
+		else
+		{
+			Debug.Log("Creating: " + _Name);
+			var result = new GameObject(_Name).AddComponent<T>();
+			DontDestroyOnLoad(result);
+			DontDestroyOnLoad(result.gameObject);
+			Debug.Log("Result: ",result);
+			return result;
+		}
+	}
 
 	#endregion
 }
