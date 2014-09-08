@@ -77,7 +77,17 @@ public abstract class CMCharacterActor : CMBehavior
 		}
 	}
 
-	protected abstract Sprite[] CurrentSprites { get; }
+	public Sprite[] Sprites;
+	public Sprite[] SpritesBack;
+
+	Sprite[] CurrentSprites
+	{
+		get
+		{
+			return LooksLeft ? SpritesBack : Sprites;
+		}
+	}
+
 
 	private		int		m_CurrentSprite;
 	protected	int		CurrentSprite

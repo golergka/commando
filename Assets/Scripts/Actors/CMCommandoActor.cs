@@ -40,21 +40,6 @@ public class CMCommandoActor : CMCharacterActor
 
 	#endregion
 
-	#region Sprites
-
-	public Sprite[] Sprites;
-	public Sprite[] SpritesBack;
-
-	protected override Sprite[] CurrentSprites
-	{
-		get
-		{
-			return LooksLeft ? SpritesBack : Sprites;
-		}
-	}
-
-	#endregion
-
 	#region Engine methods
 
 	void Start()
