@@ -3,15 +3,6 @@ using System.Collections;
 
 public class CMCommandoActor : CMCharacterActor
 {
-	#region Gizmos
-
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.DrawIcon(BulletSpawnPosition, "gizmo_star", false);
-	}
-
-	#endregion
-
 	#region Position
 
 	int m_Position;

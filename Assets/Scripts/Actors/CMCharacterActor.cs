@@ -204,4 +204,14 @@ public abstract class CMCharacterActor : CMBehavior
 	}
 
 	#endregion
+
+	#region Gizmos
+
+	void OnDrawGizmosSelected()
+	{
+		Gizmos.DrawIcon(BulletSpawnPosition, "gizmo_star", false);
+	}
+
+	#endregion
+
 }
