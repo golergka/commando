@@ -19,31 +19,8 @@ public class CMCommandoActor : CMCharacterActor
 		}
 	}
 
-	public bool LooksBack
+	protected override bool LooksLeft
 	{ get { return m_Position == 2; } }
-
-	#endregion
-
-	#region Firing bullets
-
-	public Vector3			BulletSpawn;
-	public Vector3			BulletSpawnBack;
-
-	protected override Vector3 BulletSpawnPosition
-	{
-		get
-		{
-			return (LooksBack ? BulletSpawnBack : BulletSpawn) + transform.position;
-		}
-	}
-	
-	protected override bool BulletDirectedRight
-	{
-		get
-		{
-			return !LooksBack;
-		}
-	}
 
 	#endregion
 
@@ -72,7 +49,7 @@ public class CMCommandoActor : CMCharacterActor
 	{
 		get
 		{
-			return LooksBack ? SpritesBack : Sprites;
+			return LooksLeft ? SpritesBack : Sprites;
 		}
 	}
 

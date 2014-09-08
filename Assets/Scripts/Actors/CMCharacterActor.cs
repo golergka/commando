@@ -5,8 +5,18 @@ public abstract class CMCharacterActor : CMBehavior
 {
 	#region Firing bullets
 
-	protected abstract Vector3	BulletSpawnPosition { get; }
-	protected abstract bool		BulletDirectedRight { get; }
+	public Vector3			BulletSpawn;
+	public Vector3			BulletSpawnBack;
+
+	Vector3 BulletSpawnPosition
+	{
+		get
+		{
+			return (LooksLeft ? BulletSpawnBack : BulletSpawn) + transform.position;
+		}
+	}
+
+	protected abstract bool	LooksLeft	{ get; }
 
 	public CMBulletActor	BulletPrefab;
 	public float			FireRate = 1f;
@@ -44,7 +54,7 @@ public abstract class CMCharacterActor : CMBehavior
 			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
 			if (bullet != null)
 			{
-				bullet.Speed = BulletDirectedRight ? bullet.Speed : -bullet.Speed;
+				bullet.Speed = !LooksLeft ? bullet.Speed : -bullet.Speed;
 			}
 			yield return new WaitForSeconds(1/FireRate);
 		}
