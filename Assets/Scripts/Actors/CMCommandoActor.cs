@@ -19,7 +19,7 @@ public class CMCommandoActor : CMCharacterActor
 		}
 	}
 
-	protected override bool LooksLeft
+	protected override bool LooksBack
 	{ get { return m_Position == 2; } }
 
 	#endregion

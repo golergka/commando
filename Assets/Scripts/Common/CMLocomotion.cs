@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class CMLocomotion : CMBehavior
 {
 	#region Movement state

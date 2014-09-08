@@ -23,7 +23,7 @@ public class CMStationaryEnemy : CMCharacterActor
 		}
 	}
 
-	protected override bool LooksLeft
+	protected override bool LooksBack
 	{
 		get
 		{

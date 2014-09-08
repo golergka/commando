@@ -12,11 +12,11 @@ public abstract class CMCharacterActor : CMBehavior
 	{
 		get
 		{
-			return (LooksLeft ? BulletSpawnBack : BulletSpawn) + transform.position;
+			return (LooksBack ? BulletSpawnBack : BulletSpawn) + transform.position;
 		}
 	}
 
-	protected abstract bool	LooksLeft	{ get; }
+	protected abstract bool	LooksBack	{ get; }
 
 	public CMBulletActor	BulletPrefab;
 	public float			FireRate = 1f;
@@ -58,7 +58,7 @@ public abstract class CMCharacterActor : CMBehavior
 			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
 			if (bullet != null)
 			{
-				bullet.Speed = !LooksLeft ? bullet.Speed : -bullet.Speed;
+				bullet.Speed = !LooksBack ? bullet.Speed : -bullet.Speed;
 			}
 			yield return new WaitForSeconds(1/FireRate);
 		}
@@ -88,10 +88,9 @@ public abstract class CMCharacterActor : CMBehavior
 	{
 		get
 		{
-			return LooksLeft ? SpritesBack : Sprites;
+			return LooksBack ? SpritesBack : Sprites;
 		}
 	}
-
 
 	private		int		m_CurrentSprite;
 	protected	int		CurrentSprite
