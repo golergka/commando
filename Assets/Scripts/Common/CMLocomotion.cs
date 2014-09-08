@@ -35,8 +35,7 @@ public class CMLocomotion : CMBehavior
 
 	#region Movement interface
 
-	float Direction
-	{ get { return 1f; } }
+	public float Direction { get; set; }
 
 	public void Jump()
 	{
@@ -128,12 +127,6 @@ public class CMLocomotion : CMBehavior
 		}
 		// Moving the actor
 		transform.position = transform.position + movement;
-		// Rotating the transform
-		transform.eulerAngles = new Vector3(
-				transform.eulerAngles.x,
-				movement.x >= 0 ? 0f : 180f,
-				transform.eulerAngles.z
-			);
 		// Changing the sprite
 		if (OnMovement != null)
 		{

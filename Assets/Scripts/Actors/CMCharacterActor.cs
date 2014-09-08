@@ -12,11 +12,12 @@ public abstract class CMCharacterActor : CMBehavior
 	{
 		get
 		{
-			return (LooksBack ? BulletSpawnBack : BulletSpawn) + transform.position;
+			return ((LooksBack ^ !DirectedRight) ? BulletSpawnBack : BulletSpawn) + transform.position;
 		}
 	}
 
-	protected abstract bool	LooksBack	{ get; }
+	protected abstract bool	LooksBack		{ get; }
+	protected abstract bool DirectedRight	{ get; }
 
 	public CMBulletActor	BulletPrefab;
 	public float			FireRate = 1f;
@@ -215,6 +216,14 @@ public abstract class CMCharacterActor : CMBehavior
 
 	protected virtual void Update()
 	{
+		Mover.Direction = DirectedRight ? 1f : -1f;
+		// Rotating the transform
+		transform.eulerAngles = new Vector3(
+				transform.eulerAngles.x,
+				DirectedRight ? 0f : 180f,
+				transform.eulerAngles.z
+			);
+		// Blinking from damage
 		if (Time.time < BlinkStop)
 		{
 			float phase = (Time.time - m_BlinkStartTime) / BlinkLength;

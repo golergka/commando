@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CMHealth))]
+[RequireComponent(typeof(CMLocomotion))]
 public class CMCommandoActor : CMCharacterActor
 {
 	#region Position
@@ -21,6 +23,8 @@ public class CMCommandoActor : CMCharacterActor
 
 	protected override bool LooksBack
 	{ get { return m_Position == 2; } }
+	protected override bool DirectedRight
+	{ get { return true; } }
 
 	#endregion
 

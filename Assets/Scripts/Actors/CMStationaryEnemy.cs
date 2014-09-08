@@ -23,13 +23,16 @@ public class CMStationaryEnemy : CMCharacterActor
 		}
 	}
 
-	protected override bool LooksBack
+	protected override bool DirectedRight
 	{
 		get
 		{
 			return ClosestCommando.x < transform.position.x;
 		}
 	}
+
+	protected override bool LooksBack
+	{ get { return false; } }
 
 	public float FireDistance;
 
