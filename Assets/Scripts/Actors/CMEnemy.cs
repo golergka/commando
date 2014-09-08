@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class CMStationaryEnemy : CMCharacterActor
+public class CMEnemy : CMCharacterActor
 {
 	#region Commando detection
+
+	public bool AlwaysFacesCommandos;
 
 	Vector3 ClosestCommando
 	{
@@ -27,7 +29,7 @@ public class CMStationaryEnemy : CMCharacterActor
 	{
 		get
 		{
-			return ClosestCommando.x > transform.position.x;
+			return AlwaysFacesCommandos ? (ClosestCommando.x > transform.position.x) : false;
 		}
 	}
 

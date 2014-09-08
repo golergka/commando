@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 136: {fileID: 13600000}
   m_Layer: 11
-  m_Name: Enemy
+  m_Name: Stationary enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
