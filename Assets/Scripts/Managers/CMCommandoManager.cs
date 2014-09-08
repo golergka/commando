@@ -148,7 +148,7 @@ public class CMCommandoManager : CMBehavior
 	void Start()
 	{
 		// TODO: memory leaks
-		InputManager.OnTapDown += Jump;
+		InputManager.OnClick += Jump;
 		InputManager.OnSwipeRight += () => SwitchCommandos(true);
 		InputManager.OnSwipeLeft += () => SwitchCommandos(false);
 	}

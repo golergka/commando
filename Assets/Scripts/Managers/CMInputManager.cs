@@ -11,9 +11,20 @@ public class CMInputManager : CMBehavior
 	public float Vertical
 	{ get { return Input.GetAxis("Vertical"); } }
 
-	public event System.Action OnTapDown;
+	public event System.Action OnClick;
+	public event System.Action OnHoldStart;
+	public event System.Action OnHoldStop;
 	public event System.Action OnSwipeLeft;
 	public event System.Action OnSwipeRight;
+
+	#endregion
+
+	#region Tap state
+
+	float?	m_ClickStart = null;
+	bool	m_Hold = false;
+
+	const float HOLD_TIME = 0.2f;
 
 	#endregion
 
@@ -29,8 +40,27 @@ public class CMInputManager : CMBehavior
 
 	void OnMouseDown()
 	{
-		if (OnTapDown != null)
-			OnTapDown();
+		m_ClickStart = Time.time;
+	}
+
+	void OnMouseUp()
+	{
+		m_ClickStart = null;
+		if (m_Hold)
+		{
+			m_Hold = false;
+			if (OnHoldStop != null)
+			{
+				OnHoldStop();
+			}
+		}
+		else
+		{
+			if (OnClick != null)
+			{
+				OnClick();
+			}
+		}
 	}
 
 	void Update()
@@ -42,6 +72,14 @@ public class CMInputManager : CMBehavior
 		if (Input.GetKeyDown("right") && OnSwipeRight != null)
 		{
 			OnSwipeRight();
+		}
+		if (!m_Hold && m_ClickStart != null && (Time.time - m_ClickStart) >= HOLD_TIME)
+		{
+			m_Hold = true;
+			if (OnHoldStart != null)
+			{
+				OnHoldStart();
+			}
 		}
 	}
 
