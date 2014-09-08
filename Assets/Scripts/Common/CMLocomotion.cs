@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CMCommandoMover : CMBehavior
+public class CMLocomotion : CMBehavior
 {
 	#region Movement state
 
@@ -13,7 +13,7 @@ public class CMCommandoMover : CMBehavior
 
 	MovementState State = new MovementState();
 
-	public void SwitchWith(CMCommandoMover _OtherMover)
+	public void SwitchWith(CMLocomotion _OtherMover)
 	{
 		var temp = _OtherMover.State;
 		_OtherMover.State = this.State;

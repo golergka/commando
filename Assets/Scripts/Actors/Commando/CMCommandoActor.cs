@@ -175,7 +175,7 @@ public class CMCommandoActor : CMBehavior
 
 	#region Components
 
-	public CMCommandoMover	Mover { get; private set; }
+	public CMLocomotion	Mover { get; private set; }
 	public CMHealth			Health { get; private set; }
 
 	SpriteRenderer			m_Renderer;
@@ -229,7 +229,7 @@ public class CMCommandoActor : CMBehavior
 	{
 		base.Awake();
 		CurrentSprite = 0;
-		Mover = gameObject.GetOrAddComponent<CMCommandoMover>();
+		Mover = gameObject.GetOrAddComponent<CMLocomotion>();
 		Mover.OnMovement += m => SpriteProgress += Mathf.Abs(m.magnitude * SpriteSpeed);
 		Mover.OnGroundedChanged += delegate(bool _Grounded)
 		{
