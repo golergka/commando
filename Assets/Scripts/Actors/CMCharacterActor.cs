@@ -25,6 +25,10 @@ public abstract class CMCharacterActor : CMBehavior
 
 	protected void StartFire()
 	{
+		if (m_FireCoroutine != null)
+		{
+			return;
+		}
 		StartCoroutine(m_FireCoroutine = Fire());
 	}
 
@@ -210,7 +214,7 @@ public abstract class CMCharacterActor : CMBehavior
 		};
 	}
 
-	void Update()
+	protected virtual void Update()
 	{
 		if (Time.time < BlinkStop)
 		{
