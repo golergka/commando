@@ -50,6 +50,11 @@ public class CMCommandoActor : CMCharacterActor
 	{
 		CommandoManager.RegisterCommando(this);
 		StartFire();
+		Mover.JumpForce		= CommandoManager.JumpForce;
+		Mover.Gravity		= CommandoManager.Gravity;
+		Mover.Speed			= CommandoManager.Speed;
+		Mover.GroundSnap	= CommandoManager.GroundSnap;
+		Mover.GroundAdjust	= CommandoManager.GroundAdjust;
 	}
 
 	#endregion

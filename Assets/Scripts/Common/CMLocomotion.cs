@@ -3,6 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CMLocomotion : CMBehavior
 {
+	#region Parameters
+
+	public float JumpForce		= 5f;
+	public float Gravity		= 9.8f;
+	public float Speed			= 0f;
+	public float GroundSnap		= 0.1f;
+	public float GroundAdjust	= 1f;
+
+	#endregion
+
 	#region Movement state
 
 	struct MovementState
@@ -42,7 +52,7 @@ public class CMLocomotion : CMBehavior
 		bool grounded = Mathf.Approximately(State.VerticalImpulse, 0f);
 		if (grounded || !State.DoubleJumped)
 		{
-			State.VerticalImpulse = CommandoManager.JumpForce;
+			State.VerticalImpulse = JumpForce;
 			if (!grounded)
 			{
 				State.DoubleJumped = true;
@@ -52,7 +62,7 @@ public class CMLocomotion : CMBehavior
 
 	public void DeathJump()
 	{
-		State.VerticalImpulse = CommandoManager.JumpForce;
+		State.VerticalImpulse = JumpForce;
 		State.DoubleJumped = true;
 		State.GroundHeight = float.NegativeInfinity;
 	}
@@ -89,9 +99,9 @@ public class CMLocomotion : CMBehavior
 
 	void Update()
 	{
-		State.VerticalImpulse -= CommandoManager.Gravity * Time.deltaTime;
+		State.VerticalImpulse -= Gravity * Time.deltaTime;
 		var movement = new Vector3(
-				Direction * CommandoManager.Speed * Time.deltaTime,
+				Direction * Speed * Time.deltaTime,
 				State.VerticalImpulse * Time.deltaTime,
 				0
 			);
@@ -108,7 +118,7 @@ public class CMLocomotion : CMBehavior
 			// Hitting the ground
 			if (transform.position.y <= State.GroundHeight)
 			{
-				if ((State.GroundHeight - transform.position.y) < CommandoManager.GroundSnap)
+				if ((State.GroundHeight - transform.position.y) < GroundSnap)
 				{
 					transform.position = new Vector3(
 							transform.position.x,
@@ -116,7 +126,7 @@ public class CMLocomotion : CMBehavior
 							transform.position.z
 						);
 				}
-				movement.y = (State.GroundHeight - transform.position.y) * Time.deltaTime * CommandoManager.GroundAdjust;
+				movement.y = (State.GroundHeight - transform.position.y) * Time.deltaTime * GroundAdjust;
 				HitGround();
 			}
 		}
