@@ -59,7 +59,7 @@ public abstract class CMCharacterActor : CMBehavior
 			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
 			if (bullet != null)
 			{
-				bullet.Speed = !LooksBack ? bullet.Speed : -bullet.Speed;
+				bullet.Speed = (!LooksBack ^ !DirectedRight) ? bullet.Speed : -bullet.Speed;
 			}
 			yield return new WaitForSeconds(1/FireRate);
 		}
