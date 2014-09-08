@@ -49,6 +49,7 @@ public class CMCommandoActor : CMCharacterActor
 		set
 		{
 			if (m_DefensePosition == value) return;
+			m_DefensePosition = value;
 			Mover.Speed = value ? 0f : CommandoManager.Speed;
 			FireRate = value ? FireRate * 2 : FireRate / 2;
 		}
