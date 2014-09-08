@@ -88,16 +88,13 @@ public class CMDefaultServiceLocator : CMServiceLocator
 		var go = GameObject.Find(_Name);
 		if (go != null)
 		{
-			Debug.Log("Found: " + _Name);
 			return go.GetOrAddComponent<T>();
 		}
 		else
 		{
-			Debug.Log("Creating: " + _Name);
 			var result = new GameObject(_Name).AddComponent<T>();
 			DontDestroyOnLoad(result);
 			DontDestroyOnLoad(result.gameObject);
-			Debug.Log("Result: ",result);
 			return result;
 		}
 	}
