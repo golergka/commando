@@ -27,7 +27,7 @@ public class CMStationaryEnemy : CMCharacterActor
 	{
 		get
 		{
-			return ClosestCommando.x < transform.position.x;
+			return ClosestCommando.x > transform.position.x;
 		}
 	}
 
