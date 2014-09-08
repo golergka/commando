@@ -114,6 +114,17 @@ public class CMCommandoManager : CMBehavior
 
 	#region Input
 
+	bool DefensePosition
+	{
+		set
+		{
+			foreach(var cm in m_Commandos)
+			{
+				cm.DefensePosition = value;
+			}
+		}
+	}
+
 	public void Jump()
 	{
 		if (m_Commandos.Count == 0)
@@ -151,6 +162,8 @@ public class CMCommandoManager : CMBehavior
 		InputManager.OnClick += Jump;
 		InputManager.OnSwipeRight += () => SwitchCommandos(true);
 		InputManager.OnSwipeLeft += () => SwitchCommandos(false);
+		InputManager.OnHoldStart += () => DefensePosition = true;
+		InputManager.OnHoldStop += () => DefensePosition = false;
 	}
 
 	void Update()

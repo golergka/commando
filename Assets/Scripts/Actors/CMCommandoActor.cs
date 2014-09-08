@@ -42,6 +42,18 @@ public class CMCommandoActor : CMCharacterActor
 		this.Mover.SwitchWith(_Actor.Mover);
 	}
 
+	bool m_DefensePosition = false;
+	public bool DefensePosition
+	{
+		get { return m_DefensePosition; }
+		set
+		{
+			if (m_DefensePosition == value) return;
+			Mover.Speed = value ? 0f : CommandoManager.Speed;
+			FireRate = value ? FireRate * 2 : FireRate / 2;
+		}
+	}
+
 	#endregion
 
 	#region Engine methods
