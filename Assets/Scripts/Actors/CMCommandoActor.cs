@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CMCommandoActor : CMBehavior
+public class CMCommandoActor : CMCharacterActor
 {
 	#region Gizmos
 
@@ -38,53 +38,19 @@ public class CMCommandoActor : CMBehavior
 	public Vector3			BulletSpawn;
 	public Vector3			BulletSpawnBack;
 
-	public CMBulletActor	BulletPrefab;
-	public float			FireRate = 1f;
-
-	IEnumerator m_FireCoroutine;
-
-	void StartFire()
-	{
-		StartCoroutine(m_FireCoroutine = Fire());
-	}
-
-	void StopFire()
-	{
-		if (m_FireCoroutine != null)
-		{
-			StopCoroutine(m_FireCoroutine);
-			m_FireCoroutine = null;
-		}
-	}
-
-	Vector3 BulletSpawnPosition
+	protected override Vector3 BulletSpawnPosition
 	{
 		get
 		{
 			return (LooksBack ? BulletSpawnBack : BulletSpawn) + transform.position;
 		}
 	}
-
-	IEnumerator Fire()
+	
+	protected override bool BulletDirectedRight
 	{
-		while(true)
+		get
 		{
-			if (FireRate == 0f)
-			{
-				Debug.LogError("Fire rate can't be 0!");
-				yield break;
-			}
-			if (BulletPrefab == null)
-			{
-				Debug.LogError("Can't instantiate null prefab!");
-				yield break;
-			}
-			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
-			if (bullet != null)
-			{
-				bullet.Speed = LooksBack ? -bullet.Speed : bullet.Speed;
-			}
-			yield return new WaitForSeconds(1/FireRate);
+			return !LooksBack;
 		}
 	}
 
