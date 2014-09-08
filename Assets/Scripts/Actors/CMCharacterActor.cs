@@ -53,7 +53,6 @@ public abstract class CMCharacterActor : CMBehavior
 			}
 			if (BulletPrefab == null)
 			{
-				Debug.LogError("Can't instantiate null prefab!");
 				yield break;
 			}
 			var bullet = Instantiate(BulletPrefab, BulletSpawnPosition, Quaternion.identity) as CMBulletActor;
@@ -63,6 +62,31 @@ public abstract class CMCharacterActor : CMBehavior
 			}
 			yield return new WaitForSeconds(1/FireRate);
 		}
+	}
+
+	#endregion
+	
+	#region Melee attack
+
+	public int		MeleeDamage = 0;
+	public float	MeleeRate = 1f;
+
+	float m_LastMeleeAttackTime = float.NegativeInfinity;
+
+	void OnCollisionStay(Collision _Info)
+	{
+		if (MeleeDamage <= 0)
+		{ return; }
+		if (MeleeRate <= 0f)
+		{
+			Debug.Log("Incorrect melee rate: " + MeleeRate);
+		}
+		if ((Time.time - m_LastMeleeAttackTime) < 1f/MeleeRate)
+		{ return; }
+		var health = _Info.gameObject.GetComponent<CMHealth>();
+		if (health == null)
+		{ return; }
+		health.Health -= MeleeDamage;
 	}
 
 	#endregion
