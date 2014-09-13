@@ -145,19 +145,121 @@ public class CMHelicopterActor : CMBehavior
 
 	#endregion
 
-	#region Current helicopter state
+	#region Helicopter movement state
 
-	HelicopterIntentState m_State;
+	abstract class HelicopterMovementState : HelicopterState
+	{
+		public HelicopterMovementState(CMHelicopterActor _Heli)
+			: base(_Heli)
+		{ }
+
+		public abstract bool IsTargetReached();
+	}
+
+	class VerticalMovementState : HelicopterMovementState
+	{
+		float m_TargetHeight;
+
+		public VerticalMovementState(CMHelicopterActor _Heli, float _TargetHeight)
+			: base (_Heli)
+		{
+			m_TargetHeight = _TargetHeight;
+		}
+
+		public override bool IsTargetReached() { return false; }
+
+		bool IsTargetHeightReached()
+		{
+			return Mathf.Abs(Heli.transform.position.y - m_TargetHeight) < Heli.SnapDistance;
+		}
+
+		public override void OnUpdate()
+		{
+			if (IsTargetHeightReached())
+			{
+				Heli.transform.position.Set(
+						Heli.transform.position.x,
+						m_TargetHeight,
+						Heli.transform.position.z
+					);
+				Heli.MovementState = (Heli.transform.position -	Heli.Target).x == 0f ?
+					(HelicopterMovementState) new IdleMovementState(Heli) :
+					(HelicopterMovementState) new HorizontalMovementState(Heli, Heli.Target.x);
+			}
+			else
+			{
+				var delta = m_TargetHeight - Heli.transform.position.y;
+				delta = Mathf.Sign(delta) * Mathf.Min(Mathf.Abs(delta), Heli.Speed * Time.deltaTime);
+				var movement = new Vector3(0, delta, 0);
+				Heli.transform.position = Heli.transform.position + movement;
+			}
+		}
+	}
+
+	class HorizontalMovementState : HelicopterMovementState
+	{
+		float m_TargetLattitude;
+
+		public HorizontalMovementState(CMHelicopterActor _Heli, float _TargetLattitude)
+			: base (_Heli)
+		{
+			m_TargetLattitude = _TargetLattitude;
+		}
+
+		bool IsTargetLattitudeReached()
+		{
+			return Mathf.Abs(Heli.transform.position.x - m_TargetLattitude) < Heli.SnapDistance;
+		}
+
+		public override bool IsTargetReached() { return false; }
+
+		public override void OnUpdate()
+		{
+			if (IsTargetLattitudeReached())
+			{
+				Heli.transform.position.Set(
+						m_TargetLattitude,
+						Heli.transform.position.y,
+						Heli.transform.position.x
+					);
+				Heli.MovementState = (Heli.transform.position -	Heli.Target).y == 0f ?
+					(HelicopterMovementState) new IdleMovementState(Heli) :
+					(HelicopterMovementState) new VerticalMovementState(Heli, Heli.Target.y);
+			}
+			else
+			{
+				var delta = m_TargetLattitude - Heli.transform.position.x;
+				delta = Mathf.Sign(delta) * Mathf.Min(Mathf.Abs(delta), Heli.Speed * Time.deltaTime);
+				var movement = new Vector3(delta, 0, 0);
+				Heli.transform.position = Heli.transform.position + movement;
+			}
+		}
+	}
+
+	class IdleMovementState : HelicopterMovementState
+	{
+		public IdleMovementState(CMHelicopterActor _Heli)
+			: base (_Heli)
+		{ }
+
+		public override bool IsTargetReached() { return true; }
+	}
+
+	#endregion
+
+	#region Current helicopter intent state
+
+	HelicopterIntentState m_IntentState;
 	HelicopterIntentState IntentState
 	{
-		get { return m_State; }
+		get { return m_IntentState; }
 		set
 		{
-			if (m_State != null)
+			if (m_IntentState != null)
 			{
-				m_State.OnFinish();
+				m_IntentState.OnFinish();
 			}
-			m_State = value;
+			m_IntentState = value;
 			if (value != null)
 			{
 				value.OnStart();
@@ -172,10 +274,40 @@ public class CMHelicopterActor : CMBehavior
 	public float Speed = 1f;
 	public float SnapDistance = 0.1f;
 
-	Vector3 Target { get; set; }
+	float	m_UndergroundLevel;
+	Vector3 m_Target;
+	Vector3 Target
+	{
+		get { return m_Target; }
+		set
+		{
+			if (m_Target == value)
+			{ return; }
+			m_Target = value;
+			MovementState = new VerticalMovementState(this, m_UndergroundLevel);
+		}
+	}
 	bool IsTargetReached()
 	{
-		return (Target - transform.position).magnitude < SnapDistance;
+		return MovementState.IsTargetReached();
+	}
+
+	HelicopterMovementState m_MovementState;
+	HelicopterMovementState MovementState
+	{
+		get { return m_MovementState; }
+		set
+		{
+			if (m_MovementState != null)
+			{
+				m_MovementState.OnFinish();
+			}
+			m_MovementState = value;
+			if (value != null)
+			{
+				value.OnStart();
+			}
+		}
 	}
 
 	#endregion
@@ -285,6 +417,8 @@ public class CMHelicopterActor : CMBehavior
 
 	void Start()
 	{
+		m_UndergroundLevel = transform.position.y;
+		MovementState = new IdleMovementState(this);
 		IntentState = new CampMoveState(this);
 	}
 
@@ -294,16 +428,9 @@ public class CMHelicopterActor : CMBehavior
 		{
 			IntentState.OnUpdate();
 		}
-		if (IsTargetReached())
+		if (MovementState != null)
 		{
-			transform.position = Target;
-		}
-		else
-		{
-			var delta = Target - transform.position;
-			var distance = Mathf.Min(delta.magnitude, Speed * Time.deltaTime);
-			var movement = delta.normalized * distance;
-			transform.position = transform.position + movement;
+			MovementState.OnUpdate();
 		}
 	}
 
