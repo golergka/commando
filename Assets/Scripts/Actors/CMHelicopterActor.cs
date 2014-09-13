@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 public class CMHelicopterActor : CMBehavior
 {
-	#region IntentState classes
+	#region Abstract helicopter state
 
-	abstract class HelicopterIntentState
+	abstract class HelicopterState
 	{
 		protected readonly CMHelicopterActor Heli;
 
-		public HelicopterIntentState(CMHelicopterActor _Heli)
+		public HelicopterState(CMHelicopterActor _Heli)
 		{
 			this.Heli = _Heli;
 		}
@@ -20,6 +20,17 @@ public class CMHelicopterActor : CMBehavior
 		public virtual void OnFinish() {}
 		public virtual void OnUpdate() {}
 		public virtual void OnDrawGizmosSelected() {}
+	}
+
+	#endregion
+
+	#region IntentState classes
+
+	abstract class HelicopterIntentState : HelicopterState
+	{
+		public HelicopterIntentState(CMHelicopterActor _Heli)
+			: base (_Heli)
+		{ }
 	}
 
 	class CampMoveState : HelicopterIntentState
