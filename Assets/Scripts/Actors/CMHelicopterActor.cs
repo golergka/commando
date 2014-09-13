@@ -30,10 +30,19 @@ public class CMHelicopterActor : CMBehavior
 
 		public override void OnUpdate()
 		{
-			HelicopterActor.Target = HelicopterActor.HelicopterManager.NextCampPoint();
-			if (HelicopterActor.IsTargetReached())
+			var nextPoint = HelicopterActor.HelicopterManager.NextCampPoint();
+			if (nextPoint == null)
 			{
-				HelicopterActor.State = new CampWaitState(HelicopterActor);
+				HelicopterActor.State = new SilentFollowState(HelicopterActor);
+			}
+			else
+			{
+				HelicopterActor.Target = nextPoint.transform.position;
+				if (HelicopterActor.IsTargetReached())
+				{
+					HelicopterActor.State = new CampWaitState(HelicopterActor);
+					HelicopterActor.HelicopterManager.CampPoints.Remove(nextPoint);
+				}
 			}
 		}
 
@@ -71,7 +80,8 @@ public class CMHelicopterActor : CMBehavior
 
 	class CampFireState : HelicopterState
 	{
-		float m_Started;
+		float	m_Started;
+		bool	m_Finished = false;
 
 		public CampFireState(CMHelicopterActor _HelicopterActor)
 			: base (_HelicopterActor)
@@ -83,13 +93,17 @@ public class CMHelicopterActor : CMBehavior
 			HelicopterActor.StartFire();
 			HelicopterActor.OnEnemyLeft(delegate
 			{
-				HelicopterActor.State = new CampMoveState(HelicopterActor);
+				if (!m_Finished)
+				{
+					HelicopterActor.State = new CampMoveState(HelicopterActor);
+				}
 			});
 		}
 
 		public override void OnFinish()
 		{
 			HelicopterActor.StopFire();
+			m_Finished = true;
 		}
 
 		public override void OnUpdate()
@@ -109,6 +123,13 @@ public class CMHelicopterActor : CMBehavior
 					HelicopterActor.transform.TransformVector(boxCollider.size)
 				);
 		}
+	}
+
+	class SilentFollowState : HelicopterState
+	{
+		public SilentFollowState(CMHelicopterActor _HelicopterActor)
+			: base(_HelicopterActor)
+		{ }
 	}
 
 	#endregion
@@ -238,7 +259,8 @@ public class CMHelicopterActor : CMBehavior
 				Debug.LogError("Fire rate can't be 0!");
 				yield break;
 			}
-			foreach(var t in m_Targets.Select(t => t.gameObject.GetComponent<CMHealth>()))
+			foreach(var t in m_Targets.Where(t => !t.Protected)
+					.Select(t => t.gameObject.GetComponent<CMHealth>()))
 			{
 				t.Health -= Damage;
 			}

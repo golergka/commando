@@ -52,7 +52,7 @@ public class CMHelicopterManager : CMBehavior
 
 	#region Public interface
 
-	public Vector3 NextCampPoint()
+	public GameObject NextCampPoint()
 	{
 		float minimumX = float.NegativeInfinity;
 		foreach(var cm in CommandoManager.Commandos)
@@ -66,16 +66,16 @@ public class CMHelicopterManager : CMBehavior
 		if (CampPoints == null)
 		{
 			Debug.LogError("CampPoints cant be null!");
-			return Vector3.zero;
+			return null;
 		}
 
 		var toTheRight = CampPoints.Where(cp => cp.transform.position.x > minimumX);
 
-		return (toTheRight.Any() ?
-				toTheRight.Aggregate((_Best, _Candidate) =>
-						_Best.transform.position.x < _Candidate.transform.position.x ? _Best : _Candidate) :
-				CampPoints.Aggregate((_Best, _Candidate) =>
-						_Best.transform.position.x > _Candidate.transform.position.x ? _Best : _Candidate)).transform.position;
+		return toTheRight.Any() ?
+			toTheRight.Aggregate((_Best, _Candidate) =>
+					_Best.transform.position.x < _Candidate.transform.position.x ?
+					_Best : _Candidate
+				) : null;
 	}
 
 	#endregion
