@@ -155,10 +155,10 @@ public class CMHelicopterActor : CMBehavior
 	public float	FireRate		= 5f;
 	public int		Damage			= 4;
 
-	List<CMHealth>		m_Targets = new List<CMHealth>();
-	event System.Action	m_OnEnemySpotted;
-	event System.Action	m_OnEnemyLeft;
-	IEnumerator			m_FireCoroutine;
+	List<CMHelicopterTarget>	m_Targets = new List<CMHelicopterTarget>();
+	event System.Action			m_OnEnemySpotted;
+	event System.Action			m_OnEnemyLeft;
+	IEnumerator					m_FireCoroutine;
 
 	void OnEnemySpotted(System.Action _Action)
 	{
@@ -203,10 +203,10 @@ public class CMHelicopterActor : CMBehavior
 
 	void OnTriggerEnter(Collider _Other)
 	{
-		var health = _Other.gameObject.GetComponent<CMHealth>();
-		if (health)
+		var target = _Other.gameObject.GetComponent<CMHelicopterTarget>();
+		if (target)
 		{
-			m_Targets.Add(health);
+			m_Targets.Add(target);
 			if (m_OnEnemySpotted != null)
 			{
 				m_OnEnemySpotted();
@@ -217,10 +217,10 @@ public class CMHelicopterActor : CMBehavior
 	
 	void OnTriggerExit(Collider _Other)
 	{
-		var health = _Other.gameObject.GetComponent<CMHealth>();
-		if (health)
+		var target = _Other.gameObject.GetComponent<CMHelicopterTarget>();
+		if (target)
 		{
-			m_Targets.Remove(health);
+			m_Targets.Remove(target);
 			if (!m_Targets.Any() && m_OnEnemyLeft != null)
 			{
 				m_OnEnemyLeft();
@@ -238,7 +238,7 @@ public class CMHelicopterActor : CMBehavior
 				Debug.LogError("Fire rate can't be 0!");
 				yield break;
 			}
-			foreach(var t in m_Targets)
+			foreach(var t in m_Targets.Select(t => t.gameObject.GetComponent<CMHealth>()))
 			{
 				t.Health -= Damage;
 			}

@@ -3,6 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(CMHealth))]
 [RequireComponent(typeof(CMLocomotion))]
+[RequireComponent(typeof(CMHelicopterTarget))]
 public class CMCommandoActor : CMCharacterActor
 {
 	#region Position
