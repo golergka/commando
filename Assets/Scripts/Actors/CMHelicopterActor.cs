@@ -48,10 +48,14 @@ public class CMHelicopterActor : CMBehavior
 			}
 			else
 			{
-				Heli.Target = nextPoint.transform.position;
+				Heli.Target = new Vector3(
+						nextPoint.transform.position.x,
+						Heli.m_UndergroundLevel,
+						nextPoint.transform.position.z
+					);
 				if (Heli.IsTargetReached())
 				{
-					Heli.IntentState = new CampWaitState(Heli);
+					Heli.IntentState = new CampWaitState(Heli, nextPoint.transform.position);
 					Heli.HelicopterManager.CampPoints.Remove(nextPoint);
 				}
 			}
@@ -66,15 +70,20 @@ public class CMHelicopterActor : CMBehavior
 
 	class CampWaitState : HelicopterIntentState
 	{
-		public CampWaitState(CMHelicopterActor _Heli)
+		Vector3 m_CampPoint;
+
+		public CampWaitState(CMHelicopterActor _Heli, Vector3 _CampPoint)
 			: base(_Heli)
-		{ }
+		{
+			m_CampPoint = _CampPoint;
+		}
 
 		public override void OnUpdate()
 		{
 			Heli.OnEnemySpotted(delegate
 			{
 				Heli.IntentState = new CampFireState(Heli);
+				Heli.Target = m_CampPoint;
 			});
 		}
 
@@ -284,7 +293,7 @@ public class CMHelicopterActor : CMBehavior
 			if (m_Target == value)
 			{ return; }
 			m_Target = value;
-			MovementState = new VerticalMovementState(this, m_UndergroundLevel);
+			MovementState = new VerticalMovementState(this, Target.y);
 		}
 	}
 	bool IsTargetReached()
