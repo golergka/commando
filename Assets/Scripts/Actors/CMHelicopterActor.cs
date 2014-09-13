@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 public class CMHelicopterActor : CMBehavior
 {
-	#region State classes
+	#region IntentState classes
 
-	abstract class HelicopterState
+	abstract class HelicopterIntentState
 	{
-		protected readonly CMHelicopterActor HelicopterActor;
+		protected readonly CMHelicopterActor Heli;
 
-		public HelicopterState(CMHelicopterActor _HelicopterActor)
+		public HelicopterIntentState(CMHelicopterActor _Heli)
 		{
-			this.HelicopterActor = _HelicopterActor;
+			this.Heli = _Heli;
 		}
 
 		public virtual void OnStart() {}
@@ -22,26 +22,26 @@ public class CMHelicopterActor : CMBehavior
 		public virtual void OnDrawGizmosSelected() {}
 	}
 
-	class CampMoveState : HelicopterState
+	class CampMoveState : HelicopterIntentState
 	{
-		public CampMoveState(CMHelicopterActor _HelicopterActor)
-			: base(_HelicopterActor)
+		public CampMoveState(CMHelicopterActor _Heli)
+			: base(_Heli)
 		{ }
 
 		public override void OnUpdate()
 		{
-			var nextPoint = HelicopterActor.HelicopterManager.NextCampPoint();
+			var nextPoint = Heli.HelicopterManager.NextCampPoint();
 			if (nextPoint == null)
 			{
-				HelicopterActor.State = new SilentFollowState(HelicopterActor);
+				Heli.IntentState = new SilentFollowState(Heli);
 			}
 			else
 			{
-				HelicopterActor.Target = nextPoint.transform.position;
-				if (HelicopterActor.IsTargetReached())
+				Heli.Target = nextPoint.transform.position;
+				if (Heli.IsTargetReached())
 				{
-					HelicopterActor.State = new CampWaitState(HelicopterActor);
-					HelicopterActor.HelicopterManager.CampPoints.Remove(nextPoint);
+					Heli.IntentState = new CampWaitState(Heli);
+					Heli.HelicopterManager.CampPoints.Remove(nextPoint);
 				}
 			}
 		}
@@ -49,86 +49,86 @@ public class CMHelicopterActor : CMBehavior
 		public override void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.green;
-			Gizmos.DrawLine(HelicopterActor.transform.position, HelicopterActor.Target);
+			Gizmos.DrawLine(Heli.transform.position, Heli.Target);
 		}
 	}
 
-	class CampWaitState : HelicopterState
+	class CampWaitState : HelicopterIntentState
 	{
-		public CampWaitState(CMHelicopterActor _HelicopterActor)
-			: base(_HelicopterActor)
+		public CampWaitState(CMHelicopterActor _Heli)
+			: base(_Heli)
 		{ }
 
 		public override void OnUpdate()
 		{
-			HelicopterActor.OnEnemySpotted(delegate
+			Heli.OnEnemySpotted(delegate
 			{
-				HelicopterActor.State = new CampFireState(HelicopterActor);
+				Heli.IntentState = new CampFireState(Heli);
 			});
 		}
 
 		public override void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.blue;
-			var boxCollider = HelicopterActor.GetComponent<BoxCollider>();
+			var boxCollider = Heli.GetComponent<BoxCollider>();
 			Gizmos.DrawWireCube(
-					HelicopterActor.transform.TransformPoint(boxCollider.center),
-					HelicopterActor.transform.TransformVector(boxCollider.size)
+					Heli.transform.TransformPoint(boxCollider.center),
+					Heli.transform.TransformVector(boxCollider.size)
 				);
 		}
 	}
 
-	class CampFireState : HelicopterState
+	class CampFireState : HelicopterIntentState
 	{
 		float	m_Started;
 		bool	m_Finished = false;
 
-		public CampFireState(CMHelicopterActor _HelicopterActor)
-			: base (_HelicopterActor)
+		public CampFireState(CMHelicopterActor _Heli)
+			: base (_Heli)
 		{ }
 
 		public override void OnStart()
 		{
 			m_Started = Time.time;
-			HelicopterActor.StartFire();
-			HelicopterActor.OnEnemyLeft(delegate
+			Heli.StartFire();
+			Heli.OnEnemyLeft(delegate
 			{
 				if (!m_Finished)
 				{
-					HelicopterActor.State = new CampMoveState(HelicopterActor);
+					Heli.IntentState = new CampMoveState(Heli);
 				}
 			});
 		}
 
 		public override void OnFinish()
 		{
-			HelicopterActor.StopFire();
+			Heli.StopFire();
 			m_Finished = true;
 		}
 
 		public override void OnUpdate()
 		{
-			if (m_Started + HelicopterActor.FireTime < Time.time)
+			if (m_Started + Heli.FireTime < Time.time)
 			{
-				HelicopterActor.State = new CampMoveState(HelicopterActor);
+				Heli.IntentState = new CampMoveState(Heli);
 			}
 		}
 
 		public override void OnDrawGizmosSelected()
 		{
 			Gizmos.color = Color.red;
-			var boxCollider = HelicopterActor.GetComponent<BoxCollider>();
+			var boxCollider = Heli.GetComponent<BoxCollider>();
 			Gizmos.DrawWireCube(
-					HelicopterActor.transform.TransformPoint(boxCollider.center),
-					HelicopterActor.transform.TransformVector(boxCollider.size)
+					Heli.transform.TransformPoint(boxCollider.center),
+					Heli.transform.TransformVector(boxCollider.size)
 				);
 		}
 	}
 
-	class SilentFollowState : HelicopterState
+	class SilentFollowState : HelicopterIntentState
 	{
-		public SilentFollowState(CMHelicopterActor _HelicopterActor)
-			: base(_HelicopterActor)
+		public SilentFollowState(CMHelicopterActor _Heli)
+			: base(_Heli)
 		{ }
 	}
 
@@ -136,8 +136,8 @@ public class CMHelicopterActor : CMBehavior
 
 	#region Current helicopter state
 
-	HelicopterState m_State;
-	HelicopterState State
+	HelicopterIntentState m_State;
+	HelicopterIntentState IntentState
 	{
 		get { return m_State; }
 		set
@@ -274,14 +274,14 @@ public class CMHelicopterActor : CMBehavior
 
 	void Start()
 	{
-		State = new CampMoveState(this);
+		IntentState = new CampMoveState(this);
 	}
 
 	void Update()
 	{
-		if (State != null)
+		if (IntentState != null)
 		{
-			State.OnUpdate();
+			IntentState.OnUpdate();
 		}
 		if (IsTargetReached())
 		{
@@ -302,9 +302,9 @@ public class CMHelicopterActor : CMBehavior
 
 	void OnDrawGizmosSelected()
 	{
-		if (State != null)
+		if (IntentState != null)
 		{
-			State.OnDrawGizmosSelected();
+			IntentState.OnDrawGizmosSelected();
 		}
 	}
 
