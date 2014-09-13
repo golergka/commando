@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CMHelicopterActor : CMBehavior
@@ -17,25 +19,7 @@ public class CMHelicopterActor : CMBehavior
 		public virtual void OnStart() {}
 		public virtual void OnFinish() {}
 		public virtual void OnUpdate() {}
-	}
-
-	class FlybyState : HelicopterState
-	{
-		public FlybyState(CMHelicopterActor _HelicopterActor)
-			: base(_HelicopterActor)
-		{ }
-
-		public override void OnStart()
-		{
-		}
-
-		public override void OnFinish()
-		{
-		}
-
-		public override void OnUpdate()
-		{
-		}
+		public virtual void OnDrawGizmosSelected() {}
 	}
 
 	class CampMoveState : HelicopterState
@@ -52,6 +36,12 @@ public class CMHelicopterActor : CMBehavior
 				HelicopterActor.State = new CampWaitState(HelicopterActor);
 			}
 		}
+
+		public override void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.green;
+			Gizmos.DrawLine(HelicopterActor.transform.position, HelicopterActor.Target);
+		}
 	}
 
 	class CampWaitState : HelicopterState
@@ -62,14 +52,20 @@ public class CMHelicopterActor : CMBehavior
 
 		public override void OnUpdate()
 		{
-			foreach(var c in HelicopterActor.CommandoManager.Commandos)
+			HelicopterActor.OnEnemySpotted(delegate
 			{
-				if ((c.transform.position - HelicopterActor.transform.position).magnitude < HelicopterActor.FireDistance)
-				{
-					HelicopterActor.State = new CampFireState(HelicopterActor);
-					break;
-				}
-			}
+				HelicopterActor.State = new CampFireState(HelicopterActor);
+			});
+		}
+
+		public override void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.blue;
+			var boxCollider = HelicopterActor.GetComponent<BoxCollider>();
+			Gizmos.DrawWireCube(
+					HelicopterActor.transform.TransformPoint(boxCollider.center),
+					HelicopterActor.transform.TransformVector(boxCollider.size)
+				);
 		}
 	}
 
@@ -84,6 +80,16 @@ public class CMHelicopterActor : CMBehavior
 		public override void OnStart()
 		{
 			m_Started = Time.time;
+			HelicopterActor.StartFire();
+			HelicopterActor.OnEnemyLeft(delegate
+			{
+				HelicopterActor.State = new CampMoveState(HelicopterActor);
+			});
+		}
+
+		public override void OnFinish()
+		{
+			HelicopterActor.StopFire();
 		}
 
 		public override void OnUpdate()
@@ -92,6 +98,16 @@ public class CMHelicopterActor : CMBehavior
 			{
 				HelicopterActor.State = new CampMoveState(HelicopterActor);
 			}
+		}
+
+		public override void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.red;
+			var boxCollider = HelicopterActor.GetComponent<BoxCollider>();
+			Gizmos.DrawWireCube(
+					HelicopterActor.transform.TransformPoint(boxCollider.center),
+					HelicopterActor.transform.TransformVector(boxCollider.size)
+				);
 		}
 	}
 
@@ -134,8 +150,101 @@ public class CMHelicopterActor : CMBehavior
 
 	#region Firing
 
-	public float FireDistance	= 2f;
-	public float FireTime		= 3f;
+	public float	FireDistance	= 2f;
+	public float	FireTime		= 3f;
+	public float	FireRate		= 5f;
+	public int		Damage			= 4;
+
+	List<CMHealth>		m_Targets = new List<CMHealth>();
+	event System.Action	m_OnEnemySpotted;
+	event System.Action	m_OnEnemyLeft;
+	IEnumerator			m_FireCoroutine;
+
+	void OnEnemySpotted(System.Action _Action)
+	{
+		if (!m_Targets.Any())
+		{
+			m_OnEnemySpotted += _Action;
+		}
+		else
+		{
+			_Action();
+		}
+	}
+
+	void OnEnemyLeft(System.Action _Action)
+	{
+		if (m_Targets.Any())
+		{
+			m_OnEnemyLeft += _Action;
+		}
+		else
+		{
+			_Action();
+		}
+	}
+
+	void StartFire()
+	{
+		if (m_FireCoroutine == null)
+		{
+			StartCoroutine(m_FireCoroutine = Fire());
+		}
+	}
+
+	void StopFire()
+	{
+		if (m_FireCoroutine != null)
+		{
+			StopCoroutine(m_FireCoroutine);
+			m_FireCoroutine = null;
+		}
+	}
+
+	void OnTriggerEnter(Collider _Other)
+	{
+		var health = _Other.gameObject.GetComponent<CMHealth>();
+		if (health)
+		{
+			m_Targets.Add(health);
+			if (m_OnEnemySpotted != null)
+			{
+				m_OnEnemySpotted();
+				m_OnEnemySpotted = null;
+			}
+		}
+	}
+	
+	void OnTriggerExit(Collider _Other)
+	{
+		var health = _Other.gameObject.GetComponent<CMHealth>();
+		if (health)
+		{
+			m_Targets.Remove(health);
+			if (!m_Targets.Any() && m_OnEnemyLeft != null)
+			{
+				m_OnEnemyLeft();
+				m_OnEnemyLeft = null;
+			}
+		}
+	}
+
+	IEnumerator Fire()
+	{
+		while(true)
+		{
+			if (FireRate == 0f)
+			{
+				Debug.LogError("Fire rate can't be 0!");
+				yield break;
+			}
+			foreach(var t in m_Targets)
+			{
+				t.Health -= Damage;
+			}
+			yield return new WaitForSeconds(1/FireRate);
+		}
+	}
 
 	#endregion
 
@@ -169,8 +278,10 @@ public class CMHelicopterActor : CMBehavior
 
 	void OnDrawGizmosSelected()
 	{
-		Gizmos.color = Color.green;
-		Gizmos.DrawLine(transform.position, Target);
+		if (State != null)
+		{
+			State.OnDrawGizmosSelected();
+		}
 	}
 
 	#endregion
