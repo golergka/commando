@@ -36,5 +36,8 @@ public class CMBehavior : MonoBehaviour, ICMServiceProvider
 	public CMGameManager GameManager
 	{ get { return ServiceLocator.GameManager; } }
 
+	public CMHelicopterManager HelicopterManager
+	{ get { return ServiceLocator.HelicopterManager; } }
+
 	#endregion
 }

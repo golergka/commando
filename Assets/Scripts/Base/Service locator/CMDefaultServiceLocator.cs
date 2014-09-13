@@ -10,6 +10,7 @@ public class CMDefaultServiceLocator : CMServiceLocator
 	CMInputManager			m_InputManager;
 	CMCommandoManager		m_CommandoManager;
 	CMGameManager			m_GameManager;
+	CMHelicopterManager		m_HelicopterManager;
 
 	#endregion
 
@@ -76,6 +77,18 @@ public class CMDefaultServiceLocator : CMServiceLocator
 				m_GameManager = LoadOrCreateManager<CMGameManager>("Game manager");
 			}
 			return m_GameManager;
+		}
+	}
+
+	public override CMHelicopterManager HelicopterManager
+	{
+		get
+		{
+			if (m_HelicopterManager == null)
+			{
+				m_HelicopterManager = LoadOrCreateManager<CMHelicopterManager>("Helicopter manager");
+			}
+			return m_HelicopterManager;
 		}
 	}
 
