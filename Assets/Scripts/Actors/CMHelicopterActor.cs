@@ -267,7 +267,9 @@ public class CMHelicopterActor : CMBehavior
 		}
 		else
 		{
-			var movement = (Target - transform.position).normalized * Speed * Time.deltaTime;
+			var delta = Target - transform.position;
+			var distance = Mathf.Min(delta.magnitude, Speed * Time.deltaTime);
+			var movement = delta.normalized * distance;
 			transform.position = transform.position + movement;
 		}
 	}
